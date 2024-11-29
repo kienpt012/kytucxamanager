@@ -1,0 +1,60 @@
+﻿@{
+    Layout = null;
+}
+<div id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade bd-example-modal-lg" aria-modal="true">
+    <div role="document" class="modal-dialog">
+        <form id="form-submit" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Tạo hóa đơn đóng tiền</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Chọn phòng đang thuê</label>
+                                <div class="position-relative">
+                                    <select id="MaPhong" name="MaPhong[]" multiple="multiple" class="form-select form-control"></select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Hạn đóng </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="HanDong" name="HanDong" class="form-control custom-format formatdate" autocomplete="off">
+                                    <div class="form-control-icon" style="padding-top: 5px;"><i class="fa-solid fa-calendar-days"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tình trạng </label>
+                                <div class="position-relative">
+                                    <select id="TrangThai" name="TrangThai" class="form-select select">
+                                        <option value="">Chọn trạng thái</option>
+                                        <option value="1">Đã đóng</option>
+                                        <option value="2">Chưa đóng</option>
+                                        @*<option value="3">Quá hạn</option>*@
+                                        <option value="3">Còn nợ</option>
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                        @*<div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Ghi chú</label>
+                            <div class="position-relative">
+                                    <input type="text" placeholder="" id="GhiChu" name="GhiChu" class="form-control custom-format" style="padding-left:1.5rem">
+                                    @*<textarea name="GhiChu" id="GhiChu" rows="3" placeholder="..." class="form-control"></textarea>
+                            </div>                                
+                            </div>
+                        </div>*@
+                    </div>
+                </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary me-1 mb-1 btn-submit-format">Thêm mới</button></div>
+                </div>
+        </form>
+    </div>
+</div>

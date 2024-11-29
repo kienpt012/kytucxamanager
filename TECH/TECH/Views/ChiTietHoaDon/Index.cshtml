@@ -1,0 +1,378 @@
+﻿@using TECH.Areas.Admin.Models
+@model ChiTietHoaDonIndexModelViews
+@{
+    ViewData["Title"] = "Chi tiết hóa đơn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <style type="text/css">
+    input.error {
+        border-color: #f00 !important;
+    }
+
+    label.error {
+        clear: both;
+        color: #f00;
+        display: block;
+        text-align: left;
+        margin: unset;
+        padding: unset;
+        font-size: 13px;
+        font-weight: unset !important;
+        background: unset;
+    }
+    .form-group[class*='has-icon-'] .form-control-icon{
+        transform: unset !important;
+        top: 10% !important;
+    }
+    .select2-container--default.select2-container{
+        width: 100% !important;
+    }
+    .box-session-content{
+        border: 1px solid rgba(0, 0, 0, 0.125);
+        border-radius: 5px;
+        padding: 15px 15px 15px 15px;
+        margin-bottom: 20px;
+            display: inline-block;
+    width: 100%;
+    }
+    .box-session-content h3{
+        font-size: 20px !important;
+    }
+    .nav-tabs .nav-link.active{
+        color: #fff;
+        background-color: #435ebe;
+    }
+    .chua-dong{
+        background: red;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+    .da-dong{
+        background: #28a745;
+        color: #fff;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+    /*.nav-tabs .nav-link.active{
+
+    }*/
+</style>
+<div class="container">
+
+
+    <div class="page-heading" style="margin: 50px 0px 40px 0px;">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3  style="margin: 0px 0px 30px 0px;">Chi tiết hóa đơn thanh toán</h3>
+            </div>
+            
+        </div>
+    </div>
+    <section class="section">
+        <div  class="card">            
+            <div  class="card-header">
+                <div  class="row">
+                    <div class="col-md-6"><h3 style="font-size: 20px !important;">Thông tin chi tiết hóa đơn</h3>
+                        <p class="txt-title" style="margin-bottom: 5px;">Hạn đóng tiền: <span> @Model.HoaDon?.HanDongStr</span></p>
+                    <p class="txt-title" style="margin-bottom:0px">Trạng thái: 
+                        @if(Model.HoaDon != null && Model.HoaDon.TrangThai != 1)  {
+                             <span class="chua-dong"> @Model.HoaDon?.TrangThaiStr</span>
+                        }   else{
+                                <span class="da-dong"> @Model.HoaDon?.TrangThaiStr</span>
+                        }
+                       
+                    </p></div>
+                    
+                </div>
+            </div>
+            <div  class="card-body">
+
+                @if (Model != null)
+                {                    
+                    @if (Model.Phong != null && !string.IsNullOrEmpty(Model.Phong.TenPhong))
+                    {
+                                <div class="box-session-content"><h3>Thông tin phòng</h3>
+                                <p class="txt-title">Tên Phòng <span>: @Model.Phong.TenPhong</span></p>
+                                <p class="txt-title">Chiều Dài <span>: @Model.Phong.ChieuDai</span></p>
+                                <p class="txt-title">Chiều Dài <span>: @Model.Phong.ChieuDai</span></p>
+                                <p class="txt-title">Đơn Giá   <span>: @Model.Phong.DonGiaStr</span></p>
+                                </div>
+                    }
+                    @if (Model.ChiTietHoaDonModelViews != null && Model.ChiTietHoaDonModelViews.Count > 0)
+                    {
+                        int i = 0;
+                                <div class="box-session-content"><h3>Danh sách các dịch vụ thanh toán</h3>                       
+                                    <ul class="nav nav-tabs tabcustom">
+                                @foreach (var item in Model.ChiTietHoaDonModelViews)
+                                {
+                                    if (i == 0)
+                                    {
+                                                            <li class="nav-item"><a class="nav-link active custom-item" href="javascript:void(0)" onclick="GetDichVuPhong(@item.DichVu?.Id,@Model.Phong?.Id,@Model.HoaDon?.Id,this)">@item.DichVu?.TenDV</a></li>
+                                    }
+                                    else
+                                    {
+                                                            <li class="nav-item"><a class="nav-link custom-item" href="javascript:void(0)" onclick="GetDichVuPhong(@item.DichVu?.Id,@Model.Phong?.Id,@Model.HoaDon?.Id,this)">@item.DichVu?.TenDV</a></li>
+                                    }
+                                    i++;
+                                }
+                                    </ul>
+                                    <div class="tab-content content-dich-vu">
+                                @if (Model.ChiTietHoaDonModelViews[0].DichVu != null)
+                                {
+
+                                    @*dịch vụ trông xe*@
+                                    @if (Model.ChiTietHoaDonModelViews[0].DichVu != null && Model.ChiTietHoaDonModelViews[0].DichVu.LoaiDV.HasValue &&
+                                   Model.ChiTietHoaDonModelViews[0].DichVu.LoaiDV.Value == 4)
+                                    {
+                                    <table id="table1" class="table table-striped" style="border: 1px solid #ddd;">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">STT</th>
+                                                <th>Tên dịch vụ</th>
+                                                <th>Đơn giá</th>
+                                                <th>Số lượng</th>
+                                                <th>Thành tiền</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                                <tr data-dichvuid="@Model.ChiTietHoaDonModelViews[0].DichVu?.Id">
+                                                <td>1</td>
+                                                <td>@Model.ChiTietHoaDonModelViews[0].DichVu?.TenDV</td>
+                                                <td>@Model.ChiTietHoaDonModelViews[0].DichVu?.DonGiaStr</td>
+                                                <td>@Model.ChiTietHoaDonModelViews[0].DichVu?.SoLuong</td>
+                                                                    <td>@(Model.ChiTietHoaDonModelViews[0].DichVu.SoLuong.HasValue && Model.ChiTietHoaDonModelViews[0].DichVu.SoLuong.Value > 0 ? (Model.ChiTietHoaDonModelViews[0].DichVu.SoLuong.Value * Model.ChiTietHoaDonModelViews[0].DichVu.DonGia.Value).ToString("#,###") : "")</td>
+                                            </tr>
+                                                @*  <tr>
+                                        <td colspan="7" style="text-align: right;"><button type="button" class="btn btn-success" onclick="SaveDichVuThanhToan(@Model.MaHoaDon,@Model.DichVu?.Id)">Cập nhật</button></td>
+                                    </tr>*@
+                                        </tbody>
+                                    </table>
+                                    }
+                                    @*điện, nước*@
+                                    @if (Model.ChiTietHoaDonModelViews[0].DichVu != null && Model.ChiTietHoaDonModelViews[0].DichVu.LoaiDV.HasValue
+                                  && (Model.ChiTietHoaDonModelViews[0].DichVu.LoaiDV.Value == 0 || Model.ChiTietHoaDonModelViews[0].DichVu.LoaiDV.Value == 1)
+       )
+                                    {
+                                            <table id="table1" class="table table-striped" style="border: 1px solid #ddd;">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="5%">STT</th>
+                                                        <th>Tên dịch vụ</th>
+                                                        <th>Đơn giá</th>
+                                                        <th width="15%">Chỉ số cũ</th>
+                                                        <th width="15%">Chỉ số mới</th>
+                                                        <th>Chỉ số dùng</th>
+                                                        <th>Thành tiền</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                                <tr data-dichvuid="@Model.ChiTietHoaDonModelViews[0].DichVu?.Id" class="@Model.ChiTietHoaDonModelViews[0].DichVu?.Id">
+                                                        <td>1</td>
+                                                        <td>@Model.ChiTietHoaDonModelViews[0].DichVu?.TenDV</td>
+                                                        <td>@Model.ChiTietHoaDonModelViews[0].DichVu?.DonGiaStr</td>
+                                                    @if (Model.HoaDon.TrangThai != 1)
+                                                    {
+                                                                             <td width="15%"><input type="number" min="0" value="@(Model.ChiTietHoaDonModelViews[0].ChiSoCu.HasValue && Model.ChiTietHoaDonModelViews[0].ChiSoCu.Value > 0 ? Model.ChiTietHoaDonModelViews[0].ChiSoCu.Value:0)" class="form-control chisocu" /></td>
+                                                                                        <td width="15%"><input type="number" min="0" value="@(Model.ChiTietHoaDonModelViews[0].ChiSoMoi.HasValue && Model.ChiTietHoaDonModelViews[0].ChiSoMoi.Value > 0 ? Model.ChiTietHoaDonModelViews[0].ChiSoMoi.Value:0)" class="form-control chisomoi" /></td>
+                                                                                        <td width="15%"><input type="number" min="0" value="@(Model.ChiTietHoaDonModelViews[0].ChiSoDung.HasValue && Model.ChiTietHoaDonModelViews[0].ChiSoDung.Value > 0 ? Model.ChiTietHoaDonModelViews[0].ChiSoDung.Value:0)" class="form-control chisodung" /></td>
+
+                                                        }
+                                                        else{
+                                                                                                    <td width="15%">@(Model.ChiTietHoaDonModelViews[0].ChiSoCu.HasValue && Model.ChiTietHoaDonModelViews[0].ChiSoCu.Value > 0 ? Model.ChiTietHoaDonModelViews[0].ChiSoCu.Value : 0)</td>
+                                                                                                    <td width="15%">@(Model.ChiTietHoaDonModelViews[0].ChiSoMoi.HasValue && Model.ChiTietHoaDonModelViews[0].ChiSoMoi.Value > 0 ? Model.ChiTietHoaDonModelViews[0].ChiSoMoi.Value : 0)</td>
+                                                                                                    <td width="15%">@(Model.ChiTietHoaDonModelViews[0].ChiSoDung.HasValue && Model.ChiTietHoaDonModelViews[0].ChiSoDung.Value > 0 ? Model.ChiTietHoaDonModelViews[0].ChiSoDung.Value : 0)</td>
+                                                        }
+                                                                   
+                                                    @if (!string.IsNullOrEmpty(Model.ChiTietHoaDonModelViews[0].ThanhTienStr))
+                                                    {
+                                                <td class="thanhtien">@Model.ChiTietHoaDonModelViews[0].ThanhTienStr</td>
+                                                    }
+                                                    else
+                                                    {
+                                                <td class="thanhtien"></td>
+                                                    }
+
+                                                    </tr>
+                                                    @if(Model.HoaDon.TrangThai != 1){
+                                                          <tr>
+                                                                    <td colspan="7" style="text-align: right;"><button type="button" class="btn btn-success" onclick="SaveDichVuThanhToan(@Model.HoaDon?.Id,@Model.ChiTietHoaDonModelViews[0].DichVu?.Id)">Cập nhật</button></td>
+                                                    </tr>
+                                                    }
+                                                  
+                                                </tbody>
+                                            </table>
+                                    }
+
+
+                                }
+                                    </div>
+
+                                </div>
+                    }
+                        <div class="box-session-content">
+                            <div class="col-md-12">
+                                <h3 style="float:left">Danh sách các lỗi phạm thanh toán</h3>
+                             @*@if(Model.HoaDon.TrangThai != 1){
+                                           <button type="button" data-toggle="modal" data-target="#loiPhamModal" class="btn btn-primary btn-right btn-addloi" style="float:right; margin-bottom: 15px;">
+                                            <span style="display: flex;  align-items: center;"><i class="bi bi-plus-circle"></i> <span style="margin-left: 6px; padding-top: 2px;"> Thêm lỗi</span></span>
+                                        </button>
+                             }*@
+                                  
+                            </div>
+                        @if (Model.LoiPhamModelViews != null && Model.LoiPhamModelViews.Count > 0)
+                        {
+                            int loii = 0;
+                                    <div class="table-responsive" style=" width: 100%;">
+                                    <table id="table1" class="table table-striped" style="border: 1px solid #ddd;">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%">STT</th>
+                                                <th width="15%">Tên lỗi</th>
+                                                <th width="10%">Tiền phạt</th>
+                                                <th width="15%">Ghi chú</th>       
+                                                <th width="15%"></th>       
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach (var item in Model.LoiPhamModelViews)
+                                        {
+                                            loii++;
+                                                        <tr data-dichvuid="3" class="3">
+                                                            <td>@loii</td>
+                                                            <td>@item.TenLoi</td>
+                                                            <td>@item.TienPhatStr</td>
+                                                            <td>@item.GhiChu</td>
+                                                                        <td style="    text-align: center;">
+                                                                             @if(Model.HoaDon.TrangThai != 1){
+                                                                                                 <button class="btn btn-primary custom-button" onclick="UpdateLoi(@item.Id)"><i class="bi bi-pencil-square"></i></button>
+                                                                                        <button class="btn btn-danger custom-button" onclick="DeletedLoi(@item.Id)"><i class="bi bi-trash"></i></button>
+                                                                             }
+                                                                        
+                                                            </td>
+                                                        </tr>
+                                        }
+                                        @*<tr data-dichvuid="3" class="3">
+                                        <td>1</td>
+                                        <td><input type="text" class="form-control chisocu"></td>
+                                        <td><input type="number" min="0" value="10" class="form-control chisocu"></td>
+                                        <td><input type="text" class="form-control chisocu"></td>
+                                    </tr>*@
+                                        @*<tr>
+                                        <td colspan="7" style="text-align: right;"><button type="button" class="btn btn-success" onclick="SaveDichVuThanhToan(4,3)">Cập nhật</button></td>
+                                    </tr>*@
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                        }
+
+                        </div>
+
+                    <div class="box-session-content">
+                        <div class="col-md-12">
+                            <h3 style="float:left">Danh sách các khoản thanh toán</h3>                                        
+                        </div>
+
+                        <div class="table-responsive" style=" width: 100%;">
+                                <table id="table1" class="table table-striped" style="border: 1px solid #ddd;    width: 60%;">
+                                <thead>
+                                    <tr>
+                                            <th width="5px">STT</th>
+                                            <th width="20px">Tên khoản thanh tóan</th>
+                                            <th width="20px" style="text-align: right;">Tiền thanh toán</th>   
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @*tiền phòng*@
+                                    @{
+                                        int idanhsach = 1;
+                                        decimal tongtien = 0;
+                                    }
+                                                    @if (Model.Phong != null && !string.IsNullOrEmpty(Model.Phong.TenPhong))
+                                                    {
+                                        tongtien = Model.Phong.DonGia.HasValue && Model.Phong.DonGia.Value > 0 ? Model.Phong.DonGia.Value:0;
+                                        <tr>
+                                                            <td>@idanhsach</td>
+                                                            <td>Tiền phòng</td>
+                                                            <td style="text-align: right;">@Model.Phong.DonGiaStr</td>
+                                                        </tr>                                                        
+                                                    }
+                                                    @*tiền dịch vụ*@
+                                                    @if (Model.ChiTietHoaDonModelViews != null && Model.ChiTietHoaDonModelViews.Count > 0)
+                                                    {
+                                                        @foreach(var item in Model.ChiTietHoaDonModelViews){
+                                                            idanhsach++;
+                                                            <tr>
+                                                                            <td>@idanhsach</td>
+                                                                            <td>@item.DichVu?.TenDV</td>
+                                                            @if (item.DichVu != null && (item.DichVu.LoaiDV.Value != 0 && item.DichVu.LoaiDV.Value != 1))
+                                                            {
+                                                                if (item.DichVu.SoLuong.HasValue && item.DichVu.SoLuong.Value > 0)
+                                                                {
+                                                        tongtien += item.DichVu.SoLuong.Value * item.DichVu.DonGia.Value;
+                                                                    <td style="text-align: right;">@((item.DichVu.SoLuong.Value * item.DichVu.DonGia.Value).ToString("#,###"))</td>
+                                                                }else{
+                                                        tongtien += item.DichVu.DonGia.Value;
+                                                                     <td style="text-align: right;">@(item.DichVu.DonGiaStr)</td>
+                                                                }
+                                                                
+                                                            }else{
+                                                                if (item.ChiSoDung.HasValue && item.ChiSoDung.Value > 0)
+                                                                {
+                                                        tongtien += item.ChiSoDung.Value * item.DichVu.DonGia.Value;
+                                                                    <td style="text-align: right;">@((item.ChiSoDung.Value * item.DichVu.DonGia.Value).ToString("#,###"))</td>
+                                                                }else{
+                                                                    <td style="text-align: right;">0</td>
+                                                                }
+                                                            }
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    @*tiền phạm lỗi*@
+                                                    @if (Model.LoiPhamModelViews != null && Model.LoiPhamModelViews.Count > 0)
+                                                    {
+                                                        @foreach (var item in Model.LoiPhamModelViews){
+                                            idanhsach++;
+                                            tongtien += item.TienPhat.HasValue && item.TienPhat.Value > 0 ? item.TienPhat.Value:0;
+                                            <tr>
+                                                                                        <td>@idanhsach</td>
+                                                                <td>@item.TenLoi</td>
+                                                                <td style="text-align: right;">@item.TienPhatStr</td>
+                                                                
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    <tr>
+                                                        <td colspan="3">
+                                                            <span style="color: #4a4a4a;font-weight: bold;">Tổng tiền:</span>
+                                                                <h3 style="float:right;font-size: 17px !important;margin-bottom: 0;">@(tongtien > 0 ? tongtien.ToString("#,###") : "")</h3>
+                                                        </td>
+                                                        @*<td colspan="2" style="text-align: right;">@(Model.TongTien > 0?Model.TongTien.ToString("#,###"):"")</td>*@
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                            </div>
+                }
+
+
+            </div>          
+        </div>
+    </section>
+</div>
+</div>
+<partial name="AddOrUpdate" />
+<partial name="AddLoiPham" />
+
+
+@section Scripts{
+            <script src="~/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+            <script src="~/admin/chitiethoadon/chitiethoadon.js?v=@DateTime.Now.Ticks"></script>
+            <script src="~/admin/loipham/loipham.js?v=@DateTime.Now.Ticks"></script>
+    }
+
+
+

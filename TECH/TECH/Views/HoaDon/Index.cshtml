@@ -1,0 +1,78 @@
+﻿@{
+    ViewData["Title"] = "Hóa đơn thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <style type="text/css">
+    input.error {
+        border-color: #f00 !important;
+    }
+
+    label.error {
+        clear: both;
+        color: #f00;
+        display: block;
+        text-align: left;
+        margin: unset;
+        padding: unset;
+        font-size: 13px;
+        font-weight: unset !important;
+        background: unset;
+    }
+    .form-group[class*='has-icon-'] .form-control-icon{
+        transform: unset !important;
+        top: 10% !important;
+    }
+    .select2-container--default.select2-container{
+        width: 100% !important;
+    }
+   .pay-bill .custom-button {
+    padding: 5px !important;
+}
+</style>
+ <div class="container">
+    <div class="page-heading" style="margin: 50px 0px 40px 0px;">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3 style="margin: 0px 0px 30px 0px;">Hóa đơn thanh toán</h3>
+            </div>            
+        </div>
+    </div>
+    <section class="section pay-bill">
+            <div class="card" style="border: none;">
+                <div class="card-body" style="padding: 0px;">
+                    <div  class="table-responsive">
+                    <table  id="table1" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên KH</th>                               
+                                <th>Tên phòng</th>
+                                <th>Người đóng</th>
+                                <th>Ngày đóng</th>
+                                <th>Hạn đóng</th>
+                                <th>Tổng tiền</th>
+                                <th>Tiền đóng</th>
+                                <th>Trạng thái</th>
+                                <th style="text-align: center;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblData">                            
+                        </tbody>
+                    </table>
+                </div>                
+            </div>          
+        </div>
+    </section>
+</div>
+</div>
+<partial name="AddOrUpdate" />
+<partial name="PayBill" />
+
+@section Scripts{
+        <script src="~/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/admin/hoadonuser/hoadon.js?v=@DateTime.Now.Ticks"></script>
+    }
+
+
+

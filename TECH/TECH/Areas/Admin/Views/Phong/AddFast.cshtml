@@ -1,0 +1,139 @@
+﻿@{
+    Layout = null;
+}
+<div id="AddFastModal" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade bd-example-modal-lg" aria-modal="true">
+    <div role="document" class="modal-dialog modal-lg">
+        <form id="form-submit-fast" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Tạo nhanh phòng</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="first-name-icon">Tên nhà </label>
+                                <div class="position-relative">
+                                    <select id="MaNhaFast" name="MaNhaFast" class="form-select select">
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                         <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Đơn giá </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="DonGiaFast" name="DonGiaFast" class="form-control custom-format">
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Phòng từ</label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="PhongTuFast" name="PhongTuFast" class="form-control custom-format">                                    
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Đến phòng</label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="DenPhongFast" name="DenPhongFast" class="form-control custom-format">
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Tên phòng</label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="TenPhong" name="TenPhong" class="form-control custom-format">                                    
+                                </div>                                
+                            </div>
+                        </div>*@
+                       @* <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Đơn giá </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="DonGiaFast" name="DonGiaFast" class="form-control custom-format">
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>*@
+                        @*<div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Số lượng người tối đa </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="SLNguoiMaxFast" name="SLNguoiMaxFast" class="form-control custom-format">                                    
+                                </div>
+                                
+                            </div>
+                        </div>*@
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Chiều dài </label>
+                                <div class="position-relative">
+                                    <input type="number" step="0.1" placeholder="" id="ChieuDaiFast" name="ChieuDaiFast" class="form-control custom-format">
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Chiều rộng </label>
+                                <div class="position-relative">
+                                    <input type="number" step="0.1" placeholder="" id="ChieuRongFast" name="ChieuRongFast" class="form-control custom-format">
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Loại phòng</label>
+                                <div class="position-relative">
+                                    <select id="LoaiPhongFast" name="LoaiPhongFast" class="form-select select">
+                                        <option value="">Chọn loại phòng</option>
+                                        @*<option value="1">Cả nam và nữ</option>*@
+                                        <option value="2">Nam</option>
+                                        <option value="3">Nữ</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Trạng thái</label>
+                                <div class="position-relative">
+                                    <select id="TinhTrangFast" name="TinhTrangFast" class="form-select select">
+                                        <option value="">Chọn trạng thái</option>
+                                        <option value="1">Trống</option>
+                                        <option value="2">Còn chỗ</option>
+                                        <option value="3">Hết chỗ</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Mô tả</label>
+                            <div class="position-relative">
+                                <textarea name="MoTaFast" id="MoTaFast" rows="3" placeholder="..." class="form-control"></textarea>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary me-1 mb-1 btn-submit-format">Thêm mới</button></div>
+                </div>
+        </form>
+    </div>
+</div>

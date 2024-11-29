@@ -1,0 +1,702 @@
+﻿@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@using TECH.Areas.Admin.Models
+@{
+    var userString = Context.Session.GetString("UserInfor");
+    var user = new UserMapModelView();
+    if (userString != null)
+    {
+        user = JsonConvert.DeserializeObject<UserMapModelView>(userString);
+    }
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @* <link rel="stylesheet" href="/website/plugins/bootstrap/bootstrap.min.css">*@
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
+    <link href="~/public-custom/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/public/admin/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="/website/plugins/animate/animate.min.css">
+    <link rel="stylesheet" href="/website/plugins/fontawesome/all.css">
+    <link rel="stylesheet" href="/website/plugins/webfonts/font.css">
+    <link rel="stylesheet" href="/website/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="/website/css/owl.theme.default.min.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="/website/css/style.css">
+    <link rel="icon" href="/logo.jpg" type="image/png">
+
+    <link href="~/lib/jquery-ui-1.13.2.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui-1.13.2.custom/jquery-ui.theme.min.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="/public/admin/css/bootstrap.css">*@
+
+
+    @*  <link rel="stylesheet" href="/public/customer/css/style.css">
+    <link rel="stylesheet" href="/public/customer/css/custom-style.css">*@
+
+    <!-- UIkit CSS -->
+    @*<link rel="stylesheet" href="/website/plugins/uikit/uikit.min.css" />*@
+
+    <title>Kí Túc Xá</title>
+    @RenderSection("Styles", required: false)
+     <style>
+        /*#header {
+            z-index: 10;
+            position: relative;
+            z-index: 99999;
+        }*/
+        .nav-banner{
+            background-color: #8fa815 !important;
+            width: 100%;
+            display: inline-block;
+            padding: 0px;
+            z-index: 900;
+        }
+        .nav-banner .container{
+            justify-content: center;
+        }
+        .banner {
+            /*background: #fff;*/
+            /*background: #cd1818;*/
+            /*border-bottom: 1px solid #fff;*/
+            background: #6aaad3;
+            min-height: 95px;
+            position: relative;
+        }
+        .banner .min-wrap {
+            position: relative;
+        }
+        .min-wrap {
+            /*width: 1200px;*/
+            margin: 0 auto;
+            /*background: #252525;*/
+                background: #0d4e96;
+        }
+        .logo {
+            float: left;
+        }
+        .logo img {
+            /*height: 99px !important;*/
+        padding: 0px 0;
+    /*width: 120px;*/
+    position: relative;
+                top: 20px;
+        }
+        .content-box{
+                padding-top: 40px;
+    font-size: 16px;
+        }
+
+        .pTitle {
+            font-size: 22px;
+            line-height: 28px;
+            margin-bottom: 2px;
+            margin-top: 10px;
+            padding-bottom: 20px;
+            color: #1f4e97;
+            border-bottom: 1px solid #ccc;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .user-head {
+            float: right;
+            margin-top: 38px;
+            position: relative;
+            z-index: 9999;
+        }
+        ul{
+            list-style-type: none;
+        }
+        a{
+            text-decoration: none !important;
+        }
+        ul.ul-user-head>li {
+            float: left;
+            text-transform: capitalize;
+            /*color:black;*/
+               padding: 0 5px;
+    font-size: 15px;
+    color: #0d4e96;
+    font-weight: bold;
+        }
+        ul.ul-user-head>li>a {
+            /*color: black;*/
+            color:#fff;
+            padding: 0 5px;
+            font-size: 13px;
+        }
+        .sH1 {
+            display: block;
+            float: left;
+            background: #e7f1fa;
+            font-size: 14px;
+            line-height: 38px;
+            padding: 0 10px;
+        }
+        .sH2 {
+            width: 360px;
+            float: right;
+            position: relative;
+        }
+        .form-sn {
+            position: absolute;
+            top: 38px;
+            left: 0;
+            right: 0;
+            z-index: 999999;
+        }
+        .search-Head {
+            position: absolute;
+            top: 28px;
+            left: 384px;
+            height: 38px;
+            z-index: 9999;
+        }
+        .sH2 .ipt-sH {
+            font-weight: 400;
+            font-size: 15px;
+            color: #ccc;
+            border: 0;
+            background: #fff;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            width: 100%;
+            height: 38px;
+            padding: 0 50px 0 8px;
+            -moz-transition: all .3s;
+            -webkit-transition: all .3s;
+            -o-transition: all .3s;
+            transition: all .3s;
+            outline: none;
+        }
+        .sH2 .btn-sH {
+            cursor: pointer;
+            background: url(../images/btn-sH.png) no-repeat;
+                    width: 55px;
+            height: 38px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border: 0;
+        }
+        .ul-nmn{
+                margin: 0;
+                    display: inline-flex;
+                text-align: center;
+                width: 100%;
+                justify-content: center;
+        }
+        .ul-nmn>li {
+            float: left;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #fff;
+            text-align: center;
+            position: relative;
+            z-index: 9998;
+        }
+        .ul-nmn>li>a {
+            color: #fff;
+            display: block;
+            padding: 10px 0;
+            font-size: 17px;
+        }
+        .ul-nmn>li>a>.icon-mn {
+            margin-bottom: 6px;
+        }
+        .ul-nmn>li+li {
+            margin-left: 26px;
+        }
+        .dropdown .item-quantri:hover + div{
+                display: block;
+        }
+        .dropdown-menu:hover{
+            display: block;
+        }
+        
+        .li-parent:hover > ul.menu-child{
+            display:block;
+        }
+        .menu-child:hover{
+            display:block;
+        }
+        .menu-child li:hover{
+            background:#fff;
+        }
+        .ul-nmn li{
+            padding: 0px 10px;
+        }
+        .menu-child li a{
+            cursor: pointer;
+            display: block;
+        }
+        .li-parent{
+             padding: 0px;
+        }
+
+          .breadcum {
+    font-size: 12px;
+        margin: 18px 0px;
+}
+.breadcum ul{
+       margin-bottom: 0;
+}
+.breadcum ul li {
+    display: inline;
+}
+.breadcum ul li:first-child a {
+    padding-left: 0;
+}
+.breadcum ul li a {
+    color: #0071c5;
+    padding: 0 13px 0 10px;
+    background: url(../images/icon-breacrum.png) no-repeat right 6px;
+    font-size: 15px;
+}
+.info-prod-H h3{
+        overflow: hidden;
+    white-space: nowrap;
+}
+.modal-open .modal {    
+    z-index: 10000 !important;
+}
+.item a img{
+    height: 258px;
+    width: 100%;
+}
+.custom-height{
+        min-height: 50vh;
+}
+.box-section{
+                display: inline-block;
+            width: 100%;
+}
+.container {
+    margin: 0 auto;
+    width: 99%;
+    max-width: 1260px;
+}
+
+        .shoe-product .info h3{
+            font-size: 14px;
+    margin: 5px 0;
+    overflow: hidden;
+    font-weight: 400;
+    /* height: 41px; */
+    line-height: 22px;
+    text-transform: unset;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    height: 3.4em;
+            color: #474c51 !important;
+            font-weight: bold !important;
+        }
+
+            .shoe-product .info h3:hover{
+                color: #0168fa !important;
+            }
+        .menu-child{
+            position: absolute;
+            min-width: 200px;
+            text-align: left;
+            background: #ddd !important;
+            color: black;
+            font-weight: bold;
+            font-size: 14px;
+            left:0px;
+            display:none;
+        }
+        .menu-child li{
+            padding: 9px 11px;
+            border-bottom: 1px solid #fff;
+        }
+        ul.ul-user-head>li>a{
+            display: inline-block;
+        }
+        .quantity-gio-hang{
+            position: absolute;
+            border-radius: 50%;
+            background: red;
+            width: 15px;
+            height: 15px;
+            font-size: 10px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            top: -11px;
+            left: 7px;
+            color: #fff;
+            font-weight: bold;
+        }
+        ul li{
+            list-style-type:none !important;
+        }
+                 .custom-image-status{
+                    position: relative;
+                }
+                     .custom-image-status .trang-thai-phong{
+                       position: absolute;
+                        left: 10px;
+                        top: 10px;
+                        background: #fff;
+                        padding: 5px;
+                        border-radius: 5px;
+                z-index: 1;
+                     }
+                           .custom-image-status .loai-phong{
+                                position: absolute;
+                                right: 10px;
+                                top: 10px;
+                                background: #fff;
+                                padding: 5px;
+                                border-radius: 5px;
+                                z-index: 1;
+                           }
+    </style>
+    <link href="~/css/style-mobile.css" rel="stylesheet" />
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top nav-banner" style="background-color: #ddd !important;">
+
+              <div class="banner">
+                  <div class="container">
+                  <div class="min-wrap">
+                     <span class="logo">
+                     <a href="/">
+                     <img loading="lazy" class=" ls-is-cached lazyloaded" src="~/image-side/logo-ngang.png" alt="" height="60">
+                     </a>
+                     </span>
+                     <div class="user-head">
+                        <ul class="ul-user-head">
+                            @* <li>
+                                 <a href="javascript:void(0);" class="btn-dn">Tài khoản</a>
+                                 <div class="m-dn">
+                                    <a href="javascript:;" class="link-dn tracking">Kiểm tra đơn hàng</a>
+                                    <a href="/tao-tai-khoan.html" class="link-dn">Đăng nhập | Đăng ký</a>
+                                    <a href="/quen-mat-khau.html" class="link-dn">Quên mật khẩu</a>
+                                 </div>
+                              </li>*@
+                             @* <li><a href="/">Trang Chủ</a></li>*@
+                            @*<li>|</li>
+                               <li><a href="/gioi-thieu">Giới Thiệu</a></li>*@
+                            @*<li>|</li>
+                              <li><a href="/bai-viet">Bài Viết</a></li>*@
+                            @if (user != null && user.RoleUser == 3)
+                            { 
+                                              @*<li>|</li>*@
+                                              @*<li><a class="btn-dn" href="/gio-hang"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Giỏ hàng <span class="quantity-gio-hang"></span> </a></li>*@
+                                              @*<li><a class="btn-dn" href="/gio-hang"> <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;Giỏ hàng</a></li>
+                                               <li>|</li>*@
+                                                   <li class="nav-item dropdown">
+                                                    <a href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+                                        @user.Ten
+                                                    </a>
+                                                        <div aria-labelledby="dropdown04" class="dropdown-menu" style="left: -45px;">
+                                                      <a href="/thong-tin-ca-nhan" class="dropdown-item">Thông tin cá nhân</a>
+                                        <a href="/hop-dong" class="dropdown-item">Đơn Thuê Phòng</a>
+                                                        <a href="/hoa-don-user" class="dropdown-item">Hóa đơn hàng tháng</a>
+                                        <a href="/yeu-cau-sua-chua" class="dropdown-item">Yêu cầu sửa chữa</a>
+                                                        @*<a href="/doi-mat-khau" class="dropdown-item">Đổi mật khẩu</a>*@
+                                                        <a href="/dang-xuat" class="dropdown-item">Đăng xuất</a>
+                                                    </div>
+                                                </li>
+                            }
+                            else if (user != null && user.RoleUser == 0)
+                            {
+                                        @*<li>|</li>*@
+                                         <li class="nav-item dropdown">
+                                             <a href="#" id="dropdown05" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Quản trị viên </a>
+                                                              <div class="dropdown-menu" aria-labelledby="dropdown05" style="left: -45px;">
+                                            <a href="/admin" class="dropdown-item">Trang quản trị</a>
+
+                                            <a href="/dang-xuat" class="dropdown-item">Đăng xuất</a>
+                                        </div>
+                                         </li>
+                            }
+                            else
+                            {
+                                    @*<li>|</li>*@
+                                    <li>
+                                    <a href="/dang-ky">Đăng Ký</a>
+                                    </li>
+                                     <li>|</li>
+                                      <li><a href="/dang-nhap">Đăng Nhập</a></li>
+                            }
+
+
+                            @* <li>|</li>
+                              <li><a href="/thanh-toan/">Thanh toán</a></li>
+                              <li>|</li>
+                              <li><a title="Liên hệ Shop hoa tươi 360 | Dịch vụ điện hoa uy tín hoatuoi360.vn" href="/lien-he.html">Liên hệ</a></li>*@
+                           </ul>
+                        <div class="clear"></div>
+                     </div>
+                     <div class="search-Head clearfix">
+                        <span class="sH1">Tìm nhanh</span>
+                        <div class="sH2">
+                            <input id="tukhoa_in" style="color:unset !important;border: 1px solid #ddd;" autocomplete="off" class="ipt-sH txt-search tukhoatimkiem" type="text" placeholder="Bạn muốn tìm phòng hôm nay..!" name="tukhoa" value="">                           
+                            <button class="btn-sH btn-search-stl" type="button" style="outline: none;background-color: #0d4e96 !important"> <i class="fa fa-search" style="color: #fff;font-size: 22px;"></i></button>                            
+                        </div>
+                        <div id="show_key_val" class="form-sn" style="display:none;">
+                           <div class="frame-fsn">
+                              <ul class="load_tim"></ul>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+        </div>
+
+          <div class="min-wrap hotline">
+              <div class="container">
+                   <ul class="ul-nmn">
+                         <li>
+                            <a href="/" style="font-weight:bold">Trang Chủ</a>
+                        </li>
+                        <li style="position: relative;" class="li-parent">
+                            <a href="javascript:void(0)" style="font-weight:bold">Phòng</a>
+                            <ul class="menu-child">
+                                @await Component.InvokeAsync("CategoryMenuComponent")
+                            </ul>
+                        </li>
+                         <li>
+                            <a href="/gioi-thieu" style="font-weight:bold">Giới Thiệu</a>
+                        </li>
+                        @if (user != null && user.RoleUser == 3)
+                            {   
+                                <li>
+                                <a href="/yeu-cau-sua-chua" style="font-weight:bold">Sửa Chữa</a>
+                            </li>
+                            }
+                       
+                       @* <li>
+                            <a href="/lien-he-voi-chung-toi" style="font-weight:bold">Liên Hệ</a>
+                        </li>*@
+                        @*<li>
+                            <a href="/bai-viet" style="font-weight:bold">Bài Viết</a>
+                        </li>*@
+                   </ul>
+              </div>      
+          </div> 
+    </nav>
+
+
+    @RenderBody() 
+    <!-- Owl-Carousel -->
+    @*  <div class="owl-carousel owl-theme owl-carousel-setting">
+        <div class="item"><img src="/website/images/slideshow_1.jpg" class="d-block w-100" alt="..."></div>
+        <div class="item"><img src="/website/images/slideshow_2.jpg" class="d-block w-100" alt="..."></div>
+    </div>*@
+    <style>
+        .custom-footer h2{
+            font-size: 22px;
+        }
+        .custom-footer{
+            padding: 30px 0 0;
+            background: url('/image-side/footer.png') #0d4e96 no-repeat center !important;
+            position: relative;
+        }
+    </style>
+    <footer class="ftco-footer bg-dark ftco-section custom-footer" style="margin-top: 30px;    padding-top: 30px;">
+    <div class="container">
+        <div class="row">
+            <div class="mouse">
+                <a href="#" class="mouse-icon">
+                    <div class="mouse-wheel"><span class="ion-ios-arrow-up"></span></div>
+                </a>
+            </div>
+        </div>
+        <div class="row mb-5" style=" margin-bottom: 0px !important;">
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2" style="color: #fff; font-weight: bold">KÍ TÚC XÁ</h2>
+                    <p style="color: #fff">Ký túc xá KTH là lựa chọn số 1 cho rất nhiều bạn sinh viên năm nhất sau khi nhận được giấy báo trúng tuyển Đại Học</p>
+                    <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+                        <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="icon-twitter"></span></a></li>
+                        <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="icon-facebook"></span></a></li>
+                        <li class="ftco-animate fadeInUp ftco-animated"><a href="#"><span class="icon-instagram"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4 ml-md-5">
+                    <h2 class="ftco-heading-2" style="color: #fff; font-weight: bold">ĐIỀU KHOẢN</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="/chinh-sach-bao-mat" class="py-2 d-block" style="color: #fff">Chính sách bảo mật</a></li>
+                        <li><a href="/chinh-sach-thanh-toan" class="py-2 d-block" style="color: #fff">Chính sách thanh toán</a></li>
+                        <li><a href="/dieu-khoan-su-dung" class="py-2 d-block" style="color: #fff">Điều khoản sử dụng</a></li>
+                        <li><a href="/giai-quyet-khieu-nai" class="py-2 d-block" style="color: #fff">Giải quyết khiếu nại</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4" style="padding: 0px">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2" style="color: #fff; font-weight: bold">LIÊN HỆ</h2>
+                    <div class="block-23 mb-3">
+                        <ul>
+                            <li style="margin-bottom: 7px;">
+                                <a href="#">
+                                    <img src="/image-default/lien-he-nha.png" style="width: 25px;height: 25px;"/>
+                                    <span class="text" style="color: #fff">Địa Chỉ: Thủ dầu một.</span>
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 7px;">
+                                <a href="#">
+                                    <img src="/image-default/dien-thoai.png" style="width: 25px;height: 25px;"/>
+                                        <span class="text" style="color: #fff">Hotline: 0983.574.245</span>
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 7px;">
+                                <a href="#">
+                                    <img src="/image-default/dien-thoai.png" style="width: 25px;height: 25px;"/>
+                                        <span class="text" style="color: #fff">Zalo: 0983.574.245</span>
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 7px;">
+                                <a href="">
+                                   <img src="/image-default/face-book.png"style="width: 25px;height: 25px;"/>
+                                    <span class="text" style="color: #fff">Facebook: (link..) kí túc xã</span>
+                                </a>
+                            </li>
+                            <li style="margin-bottom: 7px;"><a href="#">
+                                   <img src="/image-default/email.png" style="width: 25px;height: 25px;"/>
+                                        <span class="text" style="color: #fff">Gmail: ktx@tdmu.edu.vn</span>
+                                </a>
+                            </li>
+                            <hr>
+                                @*<div style="display: flex; align-items: center">
+                                <a href="https://www.facebook.com/pages/Hi%E1%BA%BFu%20T%C3%A1o%20Mobile/104103604802769" style="color: blue; width: 50px; height: 50px; text-align: center; padding-top: 10px; background-color: #fff; border-radius: 10px; margin-right: 20px">
+                                    <i class="icon icon-facebook" style="font-size: 2rem"></i>
+                                </a>
+                                <a href="#" style="color: red; width: 50px; height: 50px; text-align: center; padding-top: 10px; background-color: #fff; border-radius: 10px; margin-right: 20px">
+                                    <i class="icon icon-youtube" style="font-size: 2rem"></i>
+                                </a>
+                                <a href="" style="color: orange; width: 50px; height: 50px; text-align: center; padding-top: 10px; background-color: #fff; border-radius: 10px; margin-right: 20px">
+                                    <i class="icon icon-envelope" style="font-size: 2rem"></i>
+                                </a>
+                                <a href="#" style="color: #17a2b8; width: 50px; height: 50px; text-align: center; padding-top: 10px; background-color: #fff; border-radius: 10px; margin-right: 20px">
+                                    <i class="icon icon-telegram" style="font-size: 2rem"></i>
+                                </a>
+                            </div>*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+                @*<div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <aside class="widget-area footer-4-area mb-2">
+                        <section id="nav_menu-4" class="widget wp-bp-footer-widget widget_nav_menu mt-5">
+                        </section>
+                    </aside>
+                </div>
+            </div>*@
+        </div>
+            @*<div class="row">
+            <div class="col-md-12 text-center">
+
+                <p style="color: #fff">
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright ©<script>
+                        document.write(new Date().getFullYear());
+                    </script>2022 All rights reserved | This template is made with <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+            </div>
+        </div>*@
+    </div>
+</footer>
+
+
+  <script async defer crossorigin="anonymous" src="/website/plugins/sdk.js"></script>
+  <script src="/website/plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+  <script src="/website/plugins/bootstrap/popper.min.js"></script>
+  @*<script src="/website/plugins/bootstrap/bootstrap.min.js"></script>*@
+  <script src="/public/customer/js/bootstrap.min.js"></script>
+  <script src="/website/plugins/owl.carousel/owl.carousel.min.js"></script>
+    <script src="~/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+     <script src="~/js/shared/shared.js"></script>
+  <script src="/website/js/home.js"></script>
+  <script src="/website/js/script.js"></script>
+    <script src="~/share/tedu.js"></script>
+    <script src="~/lib/bootbox/bootbox.all.js"></script>
+
+      <script src="/admin/plugins/notify.min.js"></script>
+     <script src="~/js/shared/shared.js"></script>
+     
+    <script src="~/admin/plugins/jquery.twbsPagination.min.js"></script>
+
+
+
+    
+  <script src="/website/plugins/uikit/uikit.min.js"></script>
+  <script src="/website/plugins/uikit/uikit-icons.min.js"></script>
+
+    <script src="~/lib/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
+    <script src="~/lib/jquery-ui-1.13.2.custom/jquery-ui.js"></script>
+    @RenderSection("Scripts", required: false)
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $(".btn-search-stl").click(function(){
+                var textSearch = $(".txt-search").val();
+                 if (textSearch !=""){
+                       window.location.href = '/san-pham-tim-kiem/timkiem=' + textSearch;
+                 }
+
+               // Search(textSearch);
+            })
+
+            $(".txt-search").keypress(function (e) {
+              if (e.which == 13) {
+                var textSearch = $(".txt-search").val();
+                if (textSearch !=""){
+                      window.location.href = '/san-pham-tim-kiem/timkiem=' + textSearch;
+                return false;    //<---- Add this line
+                }
+
+              }
+            });
+            var timkiem = urlParam();
+
+            if(timkiem != null && timkiem != ""){
+                var text = timkiem.split('=')[1];
+                $(".tukhoatimkiem").val(text);
+            }
+        })
+        function urlParam(){
+            var results = new RegExp('timkiem=[^&#]*').exec(window.location.href);
+            if (results==null) {
+               return null;
+            }
+            return decodeURI(results[0]) || "";
+        }
+        function getUrlParameter(sParam) {
+            var sPageURL = window.location.search.substring(1),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? "" : decodeURIComponent(sParameterName[1]);
+                }
+            }
+            return "";
+        };
+
+
+    </script>
+</body>
+
+</html>

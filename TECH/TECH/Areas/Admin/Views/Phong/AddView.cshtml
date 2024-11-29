@@ -1,0 +1,204 @@
+﻿@{
+    ViewData["Title"] = "Tạo mới phòng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .required {
+        color: #f00;
+    }
+
+    input.error {
+        border-color: #f00 !important;
+    }
+
+    label.error {
+        clear: both;
+        color: #f00;
+        display: block;
+        text-align: left;
+        margin: unset;
+        padding: unset;
+        font-size: 15px;
+        font-weight: unset !important;
+        background: unset;
+    }
+
+    .box-image {
+        width: 150px;
+        height: 120px;
+        background: url('/image-default/default.png');
+        background-position: center;
+        background-repeat: unset;
+        background-size: cover;
+        border-radius: 4px;
+        margin-top: 10px;
+        cursor: pointer;
+        float: left;
+        margin-right: 10px;
+        /*display: none;*/
+    }
+    .remove-image{
+        float: right;
+        height: 20px;
+        width: 20px;
+        background: #ddd;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 14px;
+        margin: 5px 5px 0px 0px;
+    }
+</style>
+
+<div class="page-heading product-view">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3 class="product-title">Tạo mới sản phẩm</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li aria-current="page" class="breadcrumb-item active product-title">Tạo mới sản phẩm</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section id="basic-vertical-layouts">
+        <div class="row match-height">
+            <div>
+                <!---->
+                <div class="snotify snotify-left_top"></div>
+                <div class="snotify snotify-left_center"></div>
+                <div class="snotify snotify-left_bottom"></div>
+                <div class="snotify snotify-right_top"></div>
+                <div class="snotify snotify-right_center"></div>
+                <div class="snotify snotify-right_bottom"></div>
+                <div class="snotify snotify-center_top"></div>
+                <div class="snotify snotify-center_center"></div>
+                <div class="snotify snotify-center_bottom"></div>
+            </div>
+            <div class="col-md-12 col-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-body">
+                            <form class="form form-vertical" id="form-submit" action="#">
+                                <div class="form-body">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Tên nhà </label>
+                                                <div class="position-relative">
+                                                    <select id="MaNha" name="MaNha" class="form-select select">
+                                                    </select>
+                                                </div>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="email-id-icon">Tên phòng</label>
+                                                <div class="position-relative">
+                                                    <input type="text" placeholder="" id="TenPhong" name="TenPhong" class="form-control custom-format">
+                                                    @*<div class="form-control-icon"><i class="bi bi-envelope"></i></div>*@
+                                                </div>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="mobile-id-icon"> Đơn giá </label>
+                                                <div class="position-relative">
+                                                    <input type="text" placeholder="" id="DonGia" name="DonGia" class="form-control custom-format">
+                                                    @*<div class="form-control-icon"><i class="bi bi-envelope"></i></div>*@
+                                                </div>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="mobile-id-icon"> Số lượng người tối đa </label>
+                                                <div class="position-relative">
+                                                    <input type="text" placeholder="" id="SLNguoiMax" name="SLNguoiMax" class="form-control custom-format">
+                                                    @*<div class="form-control-icon"><i class="bi bi-envelope"></i></div>*@
+                                                </div>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="mobile-id-icon"> Chiều dài </label>
+                                                <div class="position-relative">
+                                                    <input type="text" placeholder="" id="ChieuRong" name="ChieuRong" class="form-control custom-format">
+                                                    @*<div class="form-control-icon"><i class="bi bi-envelope"></i></div>*@
+                                                </div>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="mobile-id-icon"> Chiều rộng </label>
+                                                <div class="position-relative">
+                                                    <input type="text" placeholder="" id="ChieuDai" name="ChieuDai" class="form-control custom-format">
+                                                    @* <div class="form-control-icon"><i class="bi bi-envelope"></i></div>*@
+                                                </div>
+                                                <!---->
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="password-id-icon">Loại phòng</label>
+                                                <div class="position-relative">
+                                                    <select id="LoaiPhong" name="LoaiPhong" class="form-select select">
+                                                        <option value="">Chọn giới tính</option>
+                                                        <option value="1">Cả nam và nữ</option>
+                                                        <option value="2">Nam</option>
+                                                        <option value="3">Nữ</option>
+                                                    </select>
+                                                </div>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group has-icon-left">
+                                                <label for="password-id-icon">Trạng thái</label>
+                                                <div class="position-relative">
+                                                    <select id="LoaiPhong" name="LoaiPhong" class="form-select select">
+                                                        <option value="">Chọn giới tính</option>
+                                                        <option value="1">Cả nam và nữ</option>
+                                                        <option value="2">Nam</option>
+                                                        <option value="3">Nữ</option>
+                                                    </select>
+                                                </div>
+                                                <!---->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="password-id-icon">Mô tả</label>
+                                            <div class="position-relative">
+                                                <textarea name="MoTa" id="MoTa" rows="3" placeholder="..." class="form-control"></textarea>
+                                            </div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 d-flex justify-content-end"><button type="submit" class="btn btn-primary me-1 mb-1 btn-submit-format">Tạo mới</button></div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+@section Scripts{
+    <script src="~/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/admin/plugins/ckeditor/ckeditor.js"></script>
+    <script src="~/admin/product/product.js?v=@DateTime.Now.Ticks"></script>
+    }

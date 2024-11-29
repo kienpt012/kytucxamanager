@@ -1,0 +1,210 @@
+﻿@{
+    ViewData["Title"] = "Quản lý hợp đồng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    input.error {
+        border-color: #f00 !important;
+    }
+
+    label.error {
+        clear: both;
+        color: #f00;
+        display: block;
+        text-align: left;
+        margin: unset;
+        padding: unset;
+        font-size: 13px;
+        font-weight: unset !important;
+        background: unset;
+    }
+
+    .form-group[class*='has-icon-'] .form-control-icon {
+        transform: unset !important;
+        top: 10% !important;
+    }
+
+    .select2-container--default.select2-container {
+        width: 100% !important;
+    }
+
+    .pay-bill .custom-button {
+        padding: 5px !important;
+    }
+</style>
+
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Quản lý hóa đơn</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Quản lý hóa đơn</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section pay-bill">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-6">Danh sách hóa đơn</div>
+                    <div class="col-md-6">
+                        <button type="button" data-toggle="modal" data-target="#userModal" class="btn btn-primary btn-right btn-addorupdate" style="float:right">
+                            <span style="display: flex; align-items: center;"><i class="bi bi-plus-circle"></i> <span style="margin-left: 6px; padding-top: 2px;"> Tạo mới</span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="between:flex bottom:margin-3 ml-2">
+                            <div class="center:flex-items">
+                                <span class="right:marign-1">Hiển thị</span>
+                                <select id="ddlShowPage" style=" width: 33%; display: inline;" class="select form-select">
+                                    <option value="10" selected="selected">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>
+                                    <option value="50">50</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="TrangThaiSearch" name="TrangThai" class="form-select select">
+                            <option value="">Chọn trạng thái</option>
+                            <option value="0">Chọn tất cả</option>
+                            <option value="1">Đã đóng</option>
+                            <option value="2">Chưa đóng</option>
+                            <option value="3">Còn nợ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="ThangDongSearch" name="ThangDong" class="form-select select">
+                            <option value="">Chọn tháng đóng</option>
+                            <option value="1">Tháng 1</option>
+                            <option value="2">Tháng 2</option>
+                            <option value="3">Tháng 3</option>
+                            <option value="4">Tháng 4</option>
+                            <option value="5">Tháng 5</option>
+                            <option value="6">Tháng 6</option>
+                            <option value="7">Tháng 7</option>
+                            <option value="8">Tháng 8</option>
+                            <option value="9">Tháng 9</option>
+                            <option value="10">Tháng 10</option>
+                            <option value="11">Tháng 11</option>
+                            <option value="12">Tháng 12</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="table1" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên KH</th>
+                                <th>Tên phòng</th>
+                                <th>Người đóng</th>
+                                <th>Ngày đóng</th>
+                                <th>Hạn đóng</th>
+                                <th>Tổng tiền</th>
+                                <th>Tiền đóng</th>
+                                <th>Trạng thái</th>
+                                <th style="text-align: center;">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tblData">
+                            <!-- Ví dụ dữ liệu -->
+                            <tr>
+                                <td>1</td>
+                                <td>Nguyễn Văn Mạnh</td>
+                                <td>A101</td>
+                                <td>ssss</td>
+                                <td class="ngay-dong">25-10-2024</td>
+                                <td>26-10-2024</td>
+                                <td>6,330,000</td>
+                                <td>1,090,000</td>
+                                <td class="status-cell">Đã đóng</td>
+                                <td style="text-align: center;">
+                                    <button class="btn btn-primary">Sửa</button>
+                                    <button class="btn btn-danger">Xóa</button>
+                                </td>
+                            </tr>
+                            <!-- Thêm các dòng dữ liệu khác -->
+                        </tbody>
+                    </table>
+                </div>
+                <nav aria-label="...">
+                    <div class="dataTables_paginate paging_simple_numbers" id="datatable-checkbox_paginate">
+                        <ul id="paginationUL" class="float-right" style="justify-content: center"></ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </section>
+</div>
+
+<partial name="AddOrUpdate" />
+<partial name="PayBill" />
+
+@section Scripts {
+    <script src="~/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/admin/hoadon/hoadon.js?v=@DateTime.Now.Ticks"></script>
+
+    <script>
+        function applyFilters() {
+            var selectedStatus = document.getElementById("TrangThaiSearch").value;
+            var selectedMonth = document.getElementById("ThangDongSearch").value;
+            var rows = document.querySelectorAll("#tblData tr");
+
+            rows.forEach(function (row) {
+                var statusCell = row.querySelector(".status-cell").innerText.trim();
+                var ngayDongText = row.querySelector(".ngay-dong").innerText.trim();
+
+                console.log("Ngày đóng:", ngayDongText);  // Ghi log để kiểm tra ngày đóng
+
+                // Kiểm tra định dạng ngày
+                var parts = ngayDongText.split("-");
+                var ngayDongDate;
+                if (parts.length === 3) {
+                    ngayDongDate = new Date(parts[2], parts[1] - 1, parts[0]); // Ngày theo định dạng dd-MM-yyyy
+                } else {
+                    console.error("Định dạng ngày không hợp lệ:", ngayDongText);
+                    return; // Bỏ qua hàng nếu ngày không hợp lệ
+                }
+
+                var ngayDongMonth = ngayDongDate.getMonth() + 1; // Lấy tháng từ ngày đóng
+                console.log("Tháng của ngày đóng:", ngayDongMonth);  // Ghi log để kiểm tra tháng
+
+                var showRow = true;
+
+                // Lọc theo trạng thái
+                if (selectedStatus !== "0" && selectedStatus !== "") {
+                    if ((selectedStatus === "1" && statusCell !== "Đã đóng") ||
+                        (selectedStatus === "2" && statusCell !== "Chưa đóng") ||
+                        (selectedStatus === "3" && statusCell !== "Còn nợ")) {
+                        showRow = false;
+                    }
+                }
+
+                // Lọc theo tháng đóng tiền
+                if (selectedMonth !== "" && parseInt(selectedMonth) !== ngayDongMonth) {
+                    showRow = false;
+                }
+
+                // Hiển thị hoặc ẩn hàng
+                row.style.display = showRow ? "" : "none";
+            });
+        }
+
+        // Gắn sự kiện thay đổi cho dropdown
+        document.getElementById("TrangThaiSearch").addEventListener("change", applyFilters);
+        document.getElementById("ThangDongSearch").addEventListener("change", applyFilters);
+    </script>
+}

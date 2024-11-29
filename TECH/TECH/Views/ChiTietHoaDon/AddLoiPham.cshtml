@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+<style>
+   #loiPhamModal .form-group[class*='has-icon-'].has-icon-left .form-control {
+    padding-left: 1rem !important;
+}
+</style>
+<div id="loiPhamModal" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade" aria-modal="true">
+    <div role="document" class="modal-dialog">
+        <form id="form-submit-loi" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Thêm mới lỗi phạm</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Tên lỗi phạm</label>
+                                <input type="text" placeholder="" id="TenLoi" name="TenLoi" class="form-control custom-format" autocomplete="off">                          
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tiền phạt </label>
+                                <div class="position-relative">
+                                    <input type="number" placeholder="" id="TienPhat" name="TienPhat" class="form-control custom-format" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label>Ghi chú</label>
+                            <div class="position-relative">
+                                   <textarea name="GhiChuLoi" id="GhiChuLoi" rows="3" placeholder="..." class="form-control"></textarea>
+                            </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary me-1 mb-1 btn-submit-format-loi">Thêm mới</button></div>
+                </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,327 @@
+﻿@using TECH.Areas.Admin.Models
+@model List<NhaModelView>
+@{
+    ViewData["Title"] = "Quản lý nhân viên";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@*<style>
+    .fisrt-image-product {
+        width: 77px;
+        height: 55px;
+        border-radius: 4px;
+    }
+</style>*@
+ <style type="text/css">
+    input.error {
+        border-color: #f00 !important;
+    }
+
+    label.error {
+        clear: both;
+        color: #f00;
+        display: block;
+        text-align: left;
+        margin: unset;
+        padding: unset;
+        font-size: 13px;
+        font-weight: unset !important;
+        background: unset;
+    }
+    .form-group[class*='has-icon-'] .form-control-icon{
+        transform: unset !important;
+        top: 10% !important;
+    }
+    .form-group[class*='has-icon-'].has-icon-left .form-control {
+        padding-left: 1rem;
+    }
+     .view-phong{
+          display: inline-block;
+            width: 100%;
+            padding: 20px 20px;
+            border: 1px solid #ddd;
+    }
+    .tab-content-main{
+        display: inline-block;
+        width: 100%;
+        padding-top: 20px;
+    }
+    .view-phong .item-content{
+        width: 25%;
+        border: 1px solid #ddd;
+            padding: 10px 12px;
+        float: left;
+        min-height: 460px;
+    }
+    .view-phong .btn-custom-eidt{
+           width: 49%;
+    font-size: 14px;
+    float: left;
+    margin-right: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+    }
+    .view-phong .btn-custom-remove{
+        width: 47%;
+        font-size: 14px;
+        float:right;
+    }
+    .custom-p{
+        margin-bottom: 6px !important;
+    }
+    #thanhvien .custom-button{
+        padding: 5px !important;
+    }
+    .custom-p button{
+            padding-left: 4px;
+             padding-right: 4px;
+    }
+    .item-image{
+        width: 150px;
+        height: 100px;
+        border-radius: 4px;
+    }
+     .box-image {
+          width: 120px;
+    height: 110px;
+    background: url(/image-default/default.png);
+    background-position: center;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    border-radius: 4px;
+    margin-top: 10px;
+    cursor: pointer;
+    float: left;
+    margin-right: 10px;
+    }
+    .remove-image{
+        float: right;
+        height: 20px;
+        width: 20px;
+        background: #ddd;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 14px;
+        margin: 5px 5px 0px 0px;
+    }
+    .image-phong-tro{
+        background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+    display: inline-block;
+    margin-top: 12px;
+    width: 100%;
+    height: 200px;
+    }
+
+</style>
+<div class="page-heading">
+    <div class="page-title">
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3>Quản lý phòng</h3>
+            </div>
+            <div class="col-12 col-md-6 order-md-2 order-first">
+                <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                        <li aria-current="page" class="breadcrumb-item active">Quản lý phòng</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <section class="section">
+        <div  class="card">            
+            <div  class="card-header">
+                <div  class="row">
+                    <div  class="col-md-6">Danh sách các phòng</div>
+                    <div  class="col-md-6">
+                        @*<button type="button"  data-toggle="modal" data-target="#userModal" class="btn btn-primary btn-right btn-addorupdate" style="float:right">
+                            <span style="display: flex;  align-items: center;"><i class="bi bi-plus-circle"></i> <span style="margin-left: 6px; padding-top: 2px;"> Tạo mới</span></span>
+                        </button>*@
+                        @*<button type="button"  data-toggle="modal" data-target="#AddFastModal" class="btn btn-primary btn-right" style="float:right">
+                            <span style="display: flex;  align-items: center;"><i class="bi bi-plus-circle"></i> <span style="margin-left: 6px; padding-top: 2px;"> Tạo phòng nhanh</span></span>
+                        </button>*@
+                    </div>
+                </div>
+            </div>
+            <div  class="card-body">
+                <ul class="nav nav-tabs">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        int i = 0;
+                        foreach (var item in Model)
+                        {
+                            if (i == 0)
+                            {
+                                           <li class="nav-item"><a data-toggle="tab" href="#@item.Id" class="nav-link active custom-item" onclick="GetPhongByNha(@item.Id,this)">@item.TenNha</a></li>
+                            }
+                            else
+                            {
+                                           <li class="nav-item"><a data-toggle="tab" href="#@item.Id" class="nav-link custom-item" onclick="GetPhongByNha(@item.Id,this)">@item.TenNha</a></li>
+                            }
+                            i++;
+                        }
+                    }
+                </ul>
+                <div class="tab-content view-phong">
+                    <button type="button" class="btn btn-success btn-right btn-addorupdate" style="float:right"
+                            onclick="ShowModalAddPhong(@(Model != null && Model.Count > 0 ? Model[0].Id : 0))">
+                        <span style="display: flex; align-items: center;">
+                            <i class="bi bi-plus-circle"></i>
+                            <span style="margin-left: 6px; padding-top: 2px;">Tạo phòng</span>
+                        </span>
+                    </button>
+
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <div class="tab-content-main">
+                            @if (Model[0].Phongs != null && Model[0].Phongs.Count > 0)
+                            {
+                                @foreach (var item in Model[0].Phongs)
+                                {
+                                    string src = !string.IsNullOrEmpty(item.HinhAnh) ? "/category-image/" + item.HinhAnh : "/image-default/default.png";
+
+                                    <div class="item-content">
+                                        <i class="fa-solid fa-person-shelter"></i>
+                                        <span>@item.TenPhong</span>
+
+                                            <div class="custom-buttons">
+                                                <button type="button" class="btn btn-primary" onclick="viewRoomMembers(@item.Id)">Xem thành viên phòng</button>
+                                                <button class="btn btn-success btn-custom-edit" onClick="AddDichVu(@item.Id)" type="button">Dịch Vụ</button>
+                                                <button class="btn btn-primary btn-custom-remove" onclick="addthanhvien(@item.Id)" type="button">Thêm khách</button>
+                                            </div>
+
+                                        <div class="image-phong-tro" style="background-image:url('@src')"></div>
+                                        <p class="custom-p">Chiều dài : @item.ChieuDai</p>
+                                        <p class="custom-p">Chiều rộng : @item.ChieuRong</p>
+                                        <p class="custom-p">Đơn giá : @item.DonGiaStr</p>
+                                        <p class="custom-p">Số lượng người tối đa : @item.SLNguoiMax</p>
+                                        <p class="custom-p">Tình trạng : @item.TinhTrangStr</p>
+
+                                        <button class="btn btn-info btn-custom-edit" onClick="Update(@item.Id)" type="button">Chỉnh sửa</button>
+                                        <button class="btn btn-danger btn-custom-remove" onClick="Deleted(@item.Id)" type="button">Xóa</button>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>Không có phòng nào để hiển thị.</p>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <p>Không có dữ liệu để hiển thị.</p>
+                    }
+                </div>
+
+            </div>          
+        </div>
+    </section>
+</div>
+
+<div id="dichvutontai" tabindex="-1" role="dialog" aria-labelledby="quantity" class="modal fade" aria-modal="true">
+    <div role="document" class="modal-dialog">
+        <form id="form-submit-quantity-ton-tai" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white ">Danh sách dịch vụ đã tồn tại</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="roomMembersModal" tabindex="-1" role="dialog" aria-labelledby="roomMembersModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="roomMembersModalLabel">Thành viên phòng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="roomMembersBody">
+                <!-- Thông tin thành viên sẽ được hiển thị ở đây -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function viewRoomMembers(phongId) {
+        $.ajax({
+            url: '/Admin/Phong/GetThanhVienPhongByPhongId',
+            type: 'GET',
+            data: { id: phongId },
+            success: function (response) {
+                if (response.Data && response.Data.length > 0) {
+                    var membersHtml = '<ul>';
+                    response.Data.forEach(function (member) {
+                        membersHtml += '<li>' + member.KhachHang.TenKH + ' - SĐT: ' + member.KhachHang.SoDienThoai + '</li>';
+                    });
+                    membersHtml += '</ul>';
+                    $('#roomMembersBody').html(membersHtml);
+                } else {
+                    $('#roomMembersBody').html('<p>Không có thành viên trong phòng này.</p>');
+                }
+                $('#roomMembersModal').modal('show');
+            },
+            error: function () {
+                alert('Có lỗi xảy ra khi lấy thông tin thành viên phòng.');
+            }
+        });
+    }
+
+    // Thêm hàm để đảm bảo nút luôn hiển thị
+    function ensureButtonVisibility() {
+        $('.item-content').each(function () {
+            var $viewButton = $(this).find('button[onclick^="viewRoomMembers"]');
+            if ($viewButton.length) {
+                $viewButton.css({
+                    'position': 'absolute',
+                    'bottom': '10px',
+                    'left': '10px',
+                    'right': '10px',
+                    'width': 'calc(100% - 20px)',
+                    'z-index': '10'
+                });
+            }
+        });
+    }
+
+    // Gọi hàm khi trang đã tải xong và sau khi có thay đổi động
+    $(document).ready(function () {
+        ensureButtonVisibility();
+    });
+
+    // Nếu bạn có bất kỳ hàm nào thêm hoặc cập nhật phòng động, hãy gọi ensureButtonVisibility() sau đó
+    // Ví dụ:
+    // function updateRooms() {
+    //     // Cập nhật phòng
+    //     // ...
+    //     ensureButtonVisibility();
+    // }
+</script>
+
+
+<partial name="AddOrUpdate" />
+<partial name="AddFast" />
+<partial name="AddDichVu" />
+<partial name="AddThanhVien" />
+
+@section Scripts{
+                        <script src="~/admin/plugins/jquery-validation/jquery.validate.min.js"></script>
+                        <script src="~/admin/phong/phong.js?v=@DateTime.Now.Ticks"></script>
+    }
+
+
+

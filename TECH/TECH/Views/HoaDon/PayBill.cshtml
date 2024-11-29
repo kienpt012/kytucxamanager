@@ -1,0 +1,170 @@
+﻿@{
+    Layout = null;
+}
+<style>
+   #paybill .form-group[class*='has-icon-'].has-icon-left .form-control {
+    padding-left: 1rem !important;
+}
+</style>
+<div id="paybill" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade" aria-modal="true">
+    <input type="hidden" id="mahoadonhidden" />
+    <input type="hidden" id="tongtienhidden" />
+    <div role="document" class="modal-dialog" style="width: 500px;">
+        <form id="form-submit-bill" action="/HoaDon/CreatePaymentBill" method="POST">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Thanh toán tiền phòng</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Tên người đóng</label>
+                                <input type="text" placeholder="" id="NguoiDong" name="NguoiDong" class="form-control custom-format custom-disble" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tiền đóng </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="TongTien" name="TongTien" disabled class="form-control custom-format custom-disble" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tiền nộp </label>
+                                <div class="position-relative">
+                                    <input type="number" placeholder="" id="TienDong" name="TienDong" class="form-control custom-format custom-disble" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label>Ghi chú</label>
+                                <div class="position-relative">
+                                    <textarea name="GhiChu" id="GhiChu" rows="3" placeholder="..." class="form-control custom-disble"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="mahoadon" id="mahoadon" />
+                    <input type="hidden" name="maphong" id="maphong" />
+                    <button type="submit" class="btn btn-primary me-1 mb-1 custom-disble">Thanh toán</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#form-submit-bill').on('submit', function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const nguoiDong = $('#NguoiDong').val();
+            const tienDong = $('#TienDong').val();
+            const maHoaDon = $('#mahoadonhidden').val();
+            const maPhong = $('#maphong').val();
+
+            // Validate inputs
+            if (!nguoiDong) {
+                toastr.error('Vui lòng nhập tên người đóng tiền');
+                return false;
+            }
+
+            if (!tienDong || tienDong <= 0) {
+                toastr.error('Vui lòng nhập số tiền hợp lệ');
+                return false;
+            }
+
+            // Show loading indicator
+            toastr.info('Đang kết nối đến cổng thanh toán...');
+
+            // Create VNPay payment URL
+            $.ajax({
+                url: '/HoaDon/CreatePaymentBill',
+                type: 'POST',
+                data: {
+                    mahoadon: maHoaDon,
+                    maphong: maPhong
+                },
+                success: function (response) {
+                    if (response.success && response.url) {
+                        // Store payment details in session storage before redirect
+                        sessionStorage.setItem('paymentDetails', JSON.stringify({
+                            nguoiDong: nguoiDong,
+                            tienDong: tienDong,
+                            maHoaDon: maHoaDon,
+                            maPhong: maPhong
+                        }));
+
+                        // Redirect to VNPay payment gateway
+                        window.location.href = response.url;
+                    } else {
+                        toastr.error(response.message || 'Có lỗi xảy ra khi tạo thanh toán');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    toastr.error('Có lỗi xảy ra khi kết nối đến cổng thanh toán');
+                    console.error('Payment creation error:', error);
+                }
+            });
+        });
+
+        // Handle the return from VNPay payment gateway
+        if (window.location.search.includes('vnp_')) {
+            const paymentDetails = JSON.parse(sessionStorage.getItem('paymentDetails') || '{}');
+
+            $.ajax({
+                url: '/HoaDon/PaymentCallback' + window.location.search,
+                type: 'GET',
+                success: function (response) {
+                    if (response.success) {
+                        // Clear payment details from session storage
+                        sessionStorage.removeItem('paymentDetails');
+
+                        // Update local payment information
+                        $.ajax({
+                            url: '/HoaDon/PaymentBill',
+                            type: 'POST',
+                            data: {
+                                MaHoaDon: paymentDetails.maHoaDon,
+                                NguoiDong: paymentDetails.nguoiDong,
+                                TienDong: paymentDetails.tienDong,
+                                MaPhong: paymentDetails.maPhong
+                            },
+                            success: function () {
+                                toastr.success('Thanh toán thành công');
+                                setTimeout(function () {
+                                    window.location.href = '/HoaDon/Index';
+                                }, 2000);
+                            },
+                            error: function () {
+                                toastr.warning('Thanh toán đã được xử lý nhưng cần cập nhật lại trang');
+                                setTimeout(function () {
+                                    window.location.href = '/HoaDon/Index';
+                                }, 2000);
+                            }
+                        });
+                    } else {
+                        toastr.error(response.message || 'Thanh toán thất bại');
+                        setTimeout(function () {
+                            window.location.href = '/HoaDon/Index';
+                        }, 2000);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    toastr.error('Có lỗi xảy ra khi xử lý kết quả thanh toán');
+                    console.error('Payment callback error:', error);
+                    setTimeout(function () {
+                        window.location.href = '/HoaDon/Index';
+                    }, 2000);
+                }   
+            });
+        }
+    });
+</script>

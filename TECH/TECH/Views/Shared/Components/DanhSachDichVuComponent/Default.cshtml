@@ -1,0 +1,49 @@
+﻿@*@using TECH.Areas.Admin.Models
+@model List<CategoryModelView>
+@if (Model != null && Model.Count > 0)
+{
+
+    <a href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+        Danh mục
+    </a>
+    <div aria-labelledby="dropdown04" class="dropdown-menu">
+        @foreach (var item in Model)
+        {
+            <a href="/san-pham/@item.id" class="dropdown-item">@item.name</a>
+        }
+
+    </div>
+
+}
+*@
+@{
+    Layout = null;
+}
+@using TECH.Areas.Admin.Models
+@model List<DichVuModelView>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="shoe-product">
+        @foreach (var item in Model)
+        {
+            <div class="product-item" style="width: 234px;">
+                <a href="javascript:void(0)">
+                    <div class="info">
+                        <h3 style="height: unset">
+                            Tên dịch vụ: @item.TenDV
+                        </h3>
+                        <p>
+                            <span>Đơn giá</span>
+                            @item.DonGiaStr đ<span>
+                            </span>
+                        </p>
+                    </div>
+                </a>
+            </div>
+        }                
+    </div>
+
+}
+
+
+

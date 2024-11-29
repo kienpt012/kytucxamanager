@@ -1,0 +1,93 @@
+﻿@using TECH.Areas.Admin.Models
+@model ChiTietHoaDonModelView
+@{
+    Layout = null;
+}
+@if (Model != null)
+{
+        <div class="table-responsive">
+        @*dịch vụ trông xe*@
+        @if (Model.DichVu != null && Model.DichVu.LoaiDV.HasValue && Model.DichVu.LoaiDV.Value == 4)
+        {
+                    <table id="table1" class="table table-striped" style="border: 1px solid #ddd;">
+                        <thead>
+                            <tr>
+                                <th width="5%">STT</th>
+                                <th>Tên dịch vụ</th>
+                                <th>Đơn giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>                   
+                            <tr data-dichvuid="@Model.DichVu?.Id">
+                                <td>1</td>
+                                <td>@Model.DichVu?.TenDV</td>
+                                <td>@Model.DichVu?.DonGiaStr</td>
+                                <td>@Model.DichVu?.SoLuong</td>
+                        <td>@(Model.DichVu.SoLuong.HasValue && Model.DichVu.SoLuong.Value > 0 ? (Model.DichVu.SoLuong.Value * Model.DichVu.DonGia.Value).ToString("#,###") : "")</td>
+                            </tr>
+                        </tbody>
+                    </table>
+        } else if (Model.DichVu != null && Model.DichVu.LoaiDV.HasValue
+           && (Model.DichVu.LoaiDV.Value == 0 || Model.DichVu.LoaiDV.Value == 1) // điện hoặc nước
+       )
+        {
+                            <table id="table1" class="table table-striped" style="border: 1px solid #ddd;">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">STT</th>
+                                        <th>Tên dịch vụ</th>
+                                        <th>Đơn giá</th>
+                                        <th width="15%">Chỉ số cũ</th>
+                                        <th width="15%">Chỉ số mới</th>
+                                        <th>Chỉ số dùng</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                   
+                                            <tr data-dichvuid="@Model.DichVu?.Id" class="@Model.DichVu?.Id">
+                                        <td>1</td>
+                                        <td>@Model.DichVu?.TenDV</td>
+                                        <td>@Model.DichVu?.DonGiaStr</td>
+                                        <td width="15%"><input type="number" min="0" value="@(Model.ChiSoCu.HasValue && Model.ChiSoCu.Value > 0 ? Model.ChiSoCu.Value:0)" @(Model.HoaDon.TrangThai ==1?"disabled='true'":"") class="form-control chisocu" /></td>
+                                <td width="15%"><input type="number" min="0" value="@(Model.ChiSoMoi.HasValue && Model.ChiSoMoi.Value > 0 ? Model.ChiSoMoi.Value:0)" class="form-control chisomoi" @(Model.HoaDon.TrangThai ==1?"disabled='true'":"") /></td>
+                                <td width="15%"><input type="number" min="0" value="@(Model.ChiSoDung.HasValue && Model.ChiSoDung.Value > 0 ? Model.ChiSoDung.Value:0)" class="form-control chisodung"  @(Model.HoaDon.TrangThai ==1?"disabled='true'":"")/></td>
+                                       @if(!string.IsNullOrEmpty(Model.ThanhTienStr)){
+                            <td class="thanhtien">@Model.ThanhTienStr</td>
+                                       }else{
+                            <td class="thanhtien"></td>
+                                       }
+                        
+                                    </tr>
+                                    @if(Model.HoaDon.TrangThai !=1){
+                                                     <tr>
+                                                   <td colspan="7" style="text-align: right;"><button type="button" class="btn btn-success" onclick="SaveDichVuThanhToan(@Model.MaHoaDon,@Model.DichVu?.Id)">Cập nhật</button></td>
+                                                </tr>
+                                    }
+                                   
+                                </tbody>
+                            </table>
+        }else{
+                    <table id="table1" class="table table-striped" style="border: 1px solid #ddd;">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">STT</th>
+                                                <th width="20%">Tên dịch vụ</th>
+                                        <th>Đơn giá</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                   
+                                    <tr data-dichvuid="@Model.DichVu?.Id">
+                                        <td>1</td>
+                                        <td>@Model.DichVu?.TenDV</td>
+                                        <td>@Model.DichVu?.DonGiaStr</td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>
+        }
+
+        </div>
+}
+@*<p>hôm nay trời đẹp lắm</p>*@

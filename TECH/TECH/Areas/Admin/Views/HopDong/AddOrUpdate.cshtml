@@ -1,0 +1,100 @@
+﻿@{
+    Layout = null;
+}
+<div id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade bd-example-modal-lg" aria-modal="true">
+    <div role="document" class="modal-dialog modal-lg">
+        <form id="form-submit" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Thêm mới hợp động</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Tên nhà</label>
+                                <div class="position-relative">
+                                    <select id="MaNha" name="MaNha" class="form-select select" onchange="GetPhongByNha(this)"></select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Chọn Phòng </label>
+                                <div class="position-relative">
+                                    <select id="MaPhong" name="MaPhong" class="form-select select"></select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Khách hàng </label>
+                                <div class="position-relative">
+                                    <select id="MaKH" name="MaKH" class="form-select select"></select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Nhân viên </label>
+                                <div class="position-relative">
+                                    <select id="MaNV" name="MaNV" class="form-select select"></select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Ngày bắt đầu </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="NgayBatDau" name="NgayBatDau" class="form-control custom-format formatdate" autocomplete="off">
+                                    <div class="form-control-icon custom-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Ngày kết thúc </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="NgayKetThuc" name="NgayKetThuc" class="form-control custom-format formatdate" autocomplete="off">
+                                    <div class="form-control-icon custom-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tiền cọc </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="TienCoc" name="TienCoc" class="form-control custom-format">
+                                    <div class="form-control-icon custom-icon"><i class="fa-solid fa-money-bill"></i></div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Trạng thái</label>
+                                <div class="position-relative">
+                                    <select id="TrangThai" name="TrangThai" class="form-select select">
+                                        <option value="">Chọn trạng thái</option>
+                                        <option value="1">Đã thuê</option>
+                                        @*<option value="2">Chờ đến ở</option>*@
+                                        <option value="2">Hủy thuê</option>
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Mô tả</label>
+                            <div class="position-relative">
+                                    <textarea name="GhiChu" id="GhiChu" rows="3" placeholder="..." class="form-control" style="padding-left: 10px"></textarea>
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary me-1 mb-1 btn-submit-format">Thêm mới</button></div>
+                </div>
+        </form>
+    </div>
+</div>

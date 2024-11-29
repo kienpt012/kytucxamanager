@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+
+<div id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade bd-example-modal-lg" aria-modal="true">
+    <div role="document" class="modal-dialog modal-lg">
+        <form id="form-submit" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Thêm mới tài khoản</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="first-name-icon"> Tên dịch vụ </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="Tên dịch vụ" id="TenDV" name="TenDV" class="form-control custom-format">
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Loại dịch vụ</label>
+                                <div class="position-relative">
+                                    <select id="LoaiDV" name="LoaiDV" class="form-select select">
+                                        <option value="">Chọn dịch vụ</option>
+                                        <option value="0">Điện</option>
+                                        <option value="1">Nước</option>
+                                        <option value="2">Rác</option>
+                                        <option value="3">Mạng</option>
+                                        <option value="4">Trông xe</option>
+                                        <option value="5">Khác</option>
+                                    </select>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Đơn giá </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="DonGia" name="DonGia" class="form-control custom-format">
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Ghi chú</label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="GhiChu" name="GhiChu" class="form-control custom-format">
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary me-1 mb-1 btn-submit-format">Thêm mới</button></div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

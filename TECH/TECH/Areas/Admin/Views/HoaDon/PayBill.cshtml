@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+<style>
+   #paybill .form-group[class*='has-icon-'].has-icon-left .form-control {
+    padding-left: 1rem !important;
+}
+</style>
+<div id="paybill" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade" aria-modal="true">
+    <input type="hidden" id="mahoadonhidden"/>
+    <input type="hidden" id="tongtienhidden"/>
+    <div role="document" class="modal-dialog" style="width: 500px;">
+        <form id="form-submit-bill" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Thanh toán tiền phòng</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Tên người đóng</label>
+                                <input type="text" placeholder="" id="NguoiDong" name="NguoiDong" class="form-control custom-format custom-disble" autocomplete="off">                          
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tiền đóng </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="TongTien" name="TongTien" disabled class="form-control custom-format custom-disble" autocomplete="off">
+                                </div>
+                            </div>
+                        </div>   
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tiền nộp </label>
+                                <div class="position-relative">
+                                    <input type="number" placeholder="" id="TienDong" name="TienDong" class="form-control custom-format custom-disble" autocomplete="off">
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tình trạng </label>
+                                <div class="position-relative">
+                                    <select id="TrangThaiBill" name="TrangThaiBill" class="form-select select custom-disble">
+                                        <option value="">Chọn trạng thái</option>
+                                        <option value="1">Đã đóng</option>
+                                        <option value="2">Chưa đóng</option>
+                                        <option value="3">Còn nợ</option>
+                                    </select>
+                                </div>                                
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label>Ghi chú</label>
+                            <div class="position-relative">
+                                   <textarea name="GhiChu" id="GhiChu" rows="3" placeholder="..." class="form-control custom-disble"></textarea>
+                            </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary me-1 mb-1 custom-disble">Thanh toán</button></div>
+                </div>
+        </form>
+    </div>
+</div>

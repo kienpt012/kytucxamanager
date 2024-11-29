@@ -1,0 +1,105 @@
+﻿@using TECH.Areas.Admin.Models
+@model ChiTietHoaDonModelView
+@{
+    Layout = null;
+}
+
+@if (Model != null)
+{
+    <div class="table-responsive">
+        @if (Model.DichVu != null)
+        {
+            switch (Model.DichVu.LoaiDV)
+            {
+                case 4: // Dịch vụ trông xe
+                    <table id="table1" class="table table-striped" style="border: 1px solid #ddd;">
+                        <thead>
+                            <tr>
+                                <th width="5%">STT</th>
+                                <th>Tên dịch vụ</th>
+                                <th>Đơn giá</th>
+                                <th>Số lượng</th>
+                                <th>Thành tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-dichvuid="@Model.DichVu?.Id">
+                                <td>1</td>
+                                <td>@Model.DichVu?.TenDV</td>
+                                <td>@Model.DichVu?.DonGiaStr</td>
+                                <td>@Model.DichVu?.SoLuong</td>
+                                <td>
+                                    @(Model.DichVu.SoLuong.HasValue && Model.DichVu.DonGia.HasValue
+                                        ? (Model.DichVu.SoLuong.Value * Model.DichVu.DonGia.Value).ToString("#,###")
+                                        : "")
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    break;
+
+            @case 0: // Dịch vụ điện
+@case 1: // Dịch vụ nước
+    <table id="table1" class="table table-striped" style="border: 1px solid #ddd;">
+        <thead>
+            <tr>
+                <th width="5%">STT</th>
+                <th>Tên dịch vụ</th>
+                <th>Đơn giá</th>
+                <th width="15%">Chỉ số cũ</th>
+                <th width="15%">Chỉ số mới</th>
+                <th>Chỉ số dùng</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-dichvuid="@Model.DichVu?.Id">
+                <td>1</td>
+                <td>@Model.DichVu?.TenDV</td>
+                <td>@Model.DichVu?.DonGiaStr</td>
+                <td>
+                                    <input type="number" min="0"
+                                           value="@(Model.Phong?.SoNuocCu ?? 0)"
+                                    @(Model.Phong?.SoDienCu.HasValue ?? false ? Model.Phong.SoDienCu.Value.ToString() : "Chưa có") "disabled='true'" : "" )
+                                           class="form-control chisocu" />
+
+                </td>
+                <td>
+                                    <input type="number" min="0"
+                                           value="@(Model.Phong?.SoDienCu ?? 0)"
+                                    @(Model.Phong?.SoNuocCu.HasValue ?? false ? Model.Phong.SoNuocCu.Value.ToString() : "Chưa có") "disabled='true'" : "" )
+                                           class="form-control chisocu" />
+
+                </td>
+                <td>
+                    <input type="number" min="0"
+                           value="@(Model.ChiSoMoi ?? 0)"
+                    @(Model.HoaDon.TrangThai == 1 ? "disabled='true'" : "")
+                           class="form-control chisomoi" />
+                </td>
+                <td class="thanhtien">@Model.ThanhTienStr</td>
+            </tr>
+            @if (Model.HoaDon.TrangThai != 1)
+            {
+                <tr>
+                    <td colspan="7" style="text-align: right;">
+                        <button type="button" class="btn btn-success"
+                                onclick="SaveDichVuThanhToan(@Model.MaHoaDon, @Model.DichVu?.Id)">
+                            Cập nhật
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    break;
+
+
+            }
+        }
+        else
+        {
+            <p>Không có dữ liệu dịch vụ.</p>
+        }
+    </div>
+}

@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Admin\Controllers\FeeController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\Components\DichVuNewComponent\Default.cshtml" />
+    <Content Remove="Views\Shared\Components\DanhSachDichVuComponent\Default.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Home\About.cshtml" />
+    <None Include="Views\Home\Contact.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Phong\PhongCategory.cshtml" />
+    <None Include="Views\Phong\PhongDetail.cshtml" />
+    <None Include="Views\Phong\ProductSearch.cshtml" />
+    <None Include="Views\Shared\Components\DichVuNewComponent\Default.cshtml" />
+    <None Include="Views\Shared\Components\DanhSachDichVuComponent\Default.cshtml" />
+    <None Include="Views\Shared\Components\CategoryMenuComponent\Default.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Views\Users\Accuracy.cshtml" />
+    <None Include="Views\Users\ChangeNewPassWord.cshtml" />
+    <None Include="Views\Users\ChangePass.cshtml" />
+    <None Include="Views\Users\ForgotPassword.cshtml" />
+    <None Include="Views\Users\Login.cshtml" />
+    <None Include="Views\Users\Profile.cshtml" />
+    <None Include="Views\Users\Register.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.14" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+</Project>

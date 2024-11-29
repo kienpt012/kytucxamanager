@@ -1,0 +1,51 @@
+﻿@*@using TECH.Areas.Admin.Models
+@model List<CategoryModelView>
+@if (Model != null && Model.Count > 0)
+{
+
+    <a href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+        Danh mục
+    </a>
+    <div aria-labelledby="dropdown04" class="dropdown-menu">
+        @foreach (var item in Model)
+        {
+            <a href="/san-pham/@item.id" class="dropdown-item">@item.name</a>
+        }
+
+    </div>
+
+}
+*@
+
+@using TECH.Areas.Admin.Models
+@model List<NhaModelView>
+@if (Model != null && Model.Count > 0)
+{
+   @* <ul class="ul-nmn">*@
+        @foreach (var item in Model)
+        {
+            <li>
+
+                <a href="/nha/@item.Id" style="color:black;font-weight:bold">
+                    @*@if (!string.IsNullOrEmpty(item.icon))
+                    {
+                        <img loading="lazy" class="icon-mn" src="/category-image/@item.icon" alt="@item.name" style="width: 50px;height:50px">
+                    }
+                    else
+                    {
+                        <img loading="lazy" class="icon-mn" src="/category-image/hoa-khai-truong500.png" alt="@item.name" style="width: 50px;height:50px">
+                    }*@
+                    @*<img loading="lazy" class="icon-mn" src="/category-image/hoa-khai-truong500.png" alt="@item.name">*@
+
+                    @*<br>*@
+                    @item.TenNha
+                </a>
+            </li>
+        }
+
+   @* </ul>*@
+
+}
+
+
+

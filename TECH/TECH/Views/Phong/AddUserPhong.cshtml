@@ -1,0 +1,79 @@
+﻿@{
+    Layout = null;
+}
+<div id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade bd-example-modal-lg" aria-modal="true">
+    <div role="document" class="modal-dialog modal-lg">
+        <form id="form-submit-hop-dong" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Đặt phòng mới hợp đồng</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Tên nhà</label>
+                                <div class="position-relative">
+                                    <input type="text" value="@Model.TenNha" placeholder="" disabled id="TenNha" name="TenNha" class="form-control custom-format " autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Phòng </label>
+                                <div class="position-relative">
+                                    @*<select id="MaPhong" name="MaPhong" class="form-select select"></select>*@
+                                    <input type="text" placeholder="" value="@Model.TenPhong" disabled id="MaPhong" name="MaPhong" class="form-control custom-format " autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Khách hàng </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" value="" id="TenKhachHang" disabled name="TenKhachHang" class="form-control custom-format " autocomplete="off">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Ngày bắt đầu </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="NgayBatDau" name="NgayBatDau" class="form-control custom-format formatdate" autocomplete="off">
+                                    <div class="form-control-icon custom-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Tiền cọc </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="" id="TienCoc" name="TienCoc" class="form-control custom-format">
+                                    @*<div class="form-control-icon custom-icon"><i class="fa-solid fa-money-bill"></i></div>    *@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon" style=" margin-bottom: 0px;"> Thanh toán </label>
+                                <div class="position-relative">
+                                    <div class="radio" style="margin-bottom: 0px;font-size: 17px;">
+                                        <label style="margin-bottom: 0px;"><input type="radio" checked name="delivery" value="0" class="mr-2 delivery" /> Thanh toán trực tiếp </label>
+                                    </div>
+                                    <div class="radio" style="font-size: 17px;">
+                                        <label>
+                                            <input type="radio" name="delivery" value="1" class="mr-2 delivery" />
+                                            Thanh toán qua VNPAY
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer"><button type="submit" class="btn btn-primary me-1 mb-1 btn-submit-format">Thêm mới</button></div>
+            </div>
+        </form>
+    </div>
+</div>

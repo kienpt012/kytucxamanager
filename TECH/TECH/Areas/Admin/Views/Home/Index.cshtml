@@ -1,0 +1,282 @@
+﻿@using TECH.Areas.Admin.Models
+@model HomeModelView
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .apexcharts-legend.apexcharts-align-center.position-bottom{
+        display:none;
+    }
+</style>
+<div class="page-heading">
+    <h3>Trang thống kê</h3>
+</div>
+<div class="page-content">
+    <section>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon purple"><i class="iconly-boldPaper"></i></div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Tổng dịch vụ</h6>
+                                <h6 class="font-extrabold mb-0">@Model.DichVuCount</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon blue"><i class="iconly-boldProfile"></i></div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Tổng nhà</h6>
+                                <h6 class="font-extrabold mb-0">@Model.NhaCount</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon green"><i class="iconly-boldInfo-Circle"></i></div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Tổng phòng</h6>
+                              <h6 class="font-extrabold mb-0">@Model.PhongCount</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body px-3 py-4-5">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="stats-icon red"><i class="iconly-boldBookmark"></i></div>
+                            </div>
+                            <div class="col-md-8">
+                                <h6 class="text-muted font-semibold">Khách hàng</h6>
+                                <h6 class="font-extrabold mb-0">@Model.KhachHangCount</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-8">
+                                @*<h4>Thống kê số lượng đơn hàng</h4>*@
+                            </div>
+                            @*<div class="col-md-4">
+                                <button class="btn btn-primary btn-right"><i class="bi bi-arrow-repeat"></i></button> <button title="Tải xuống tệp Excel" class="btn btn-dark btn-right"><i class="bi bi-box-arrow-in-down"></i></button>
+                                <div class="form-group">
+                                    <select name="" id="" class="select-right form-select">
+                                        <option value="" disabled="disabled" selected="selected">Lọc theo thời gian</option>
+                                        <option value="1">Lọc theo ngày</option>
+                                        <option value="2">Lọc theo tháng</option>
+                                        <option value="3">Lọc theo năm</option>
+                                    </select>
+                                </div>
+
+                            </div>*@
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div id="chart"></div>
+                        @*<canvas id="barChart"></canvas>*@
+                        @*<div id="chartContainer" style="height: 370px; width: 100%;"></div>*@
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts{
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+                $.ajax({
+                    url: '/Admin/Home/GetHoaDonStatistical',
+                    type: 'GET',
+                    dataType: 'json',
+                    beforeSend: function() {
+                        //Loading('show');
+                    },
+                    complete: function() {
+                        //Loading('hiden');
+                    },
+                    success: function(response) {
+                        var colomun = [];
+                        var colomunName = [];
+                        var TotalAccomplished = [];
+                        var TotalWaitingProgressing = [];
+                        var Totalcancel = [];
+                        $.each(response.Data, function(key, item) {
+                            colomunName.push(key);
+                            var _data = {
+                                name: key,
+                                        data: [item.TotalDaDong, item.TotalChuaDong, item.TotalConNo]
+                            }
+                                TotalAccomplished.push(item.TotalDaDong);
+                                TotalWaitingProgressing.push(item.TotalChuaDong);
+                                Totalcancel.push(item.TotalConNo);
+
+                        })
+                        colomun.push({
+                            name:"Chưa đóng:",
+                            data:TotalWaitingProgressing,
+                            color:'#999999'
+                        });
+
+                        colomun.push({
+                            name:"Đã đóng:",
+                            data:TotalAccomplished,
+                            color: '#6AA84F'
+                        });
+
+                        colomun.push({
+                            name:"Còn nợ:",
+                            data:Totalcancel,
+                            color: '#990000'
+                        });
+
+                        setTimeout(function() {
+                            var options = {
+                                chart: {
+                                    type: 'bar',
+                                    horizontal: false,
+                                    height: 350,  
+                                     columnWidth: "10%"
+                                },
+                                fill: {
+                                    colors: ['#999999', '#6AA84F', '#990000']
+                                },
+                                dataLabels: {
+                                  enabled: false
+                                },
+                                stroke: {
+                                    show: true,
+                                    colors: ['transparent'],
+                                    width: 2,
+                                },
+                                series:colomun,
+                                tooltip: {
+                                    enabled: true,
+                                    shared: true,
+                                },
+                                xaxis: {
+                                    categories: colomunName,
+                                    //axisBorder: {
+                                    //    show: true,
+                                    //},
+                                }
+                            }
+
+                            var chart = new ApexCharts(document.querySelector('#chart'), options)
+                            chart.render()
+                        }, 1000);
+
+                    }
+                })
+
+                
+
+
+
+
+
+    //var chart = new CanvasJS.Chart("chartContainer", {
+    //	animationEnabled: true,
+    //	title:{
+    //		text: "Crude Oil Reserves vs Production, 2016"
+    //	},	
+    //	axisY: {
+    //		title: "Billions of Barrels",
+    //		titleFontColor: "#4F81BC",
+    //		lineColor: "#4F81BC",
+    //		labelFontColor: "#4F81BC",
+    //		tickColor: "#4F81BC"
+    //	},
+    //	axisY2: {
+    //		title: "Millions of Barrels/day",
+    //		titleFontColor: "#C0504E",
+    //		lineColor: "#C0504E",
+    //		labelFontColor: "#C0504E",
+    //		tickColor: "#C0504E"
+    //	},	
+    //	toolTip: {
+    //		shared: true
+    //	},
+    //	legend: {
+    //		cursor:"pointer",
+    //		itemclick: toggleDataSeries
+    //	},
+    //	data: [{
+    //		type: "column",
+    //		name: "Proven Oil Reserves (bn)",
+    //		legendText: "Proven Oil Reserves",
+    //		showInLegend: true, 
+    //		dataPoints:[
+    //			{ label: "Saudi", y: 266.21 },
+    //			{ label: "Venezuela", y: 302.25 },
+    //			{ label: "Iran", y: 157.20 },
+    //			{ label: "Iraq", y: 148.77 },
+    //			{ label: "Kuwait", y: 101.50 },
+    //			{ label: "UAE", y: 97.8 }
+    //		]
+    //	},
+    //	{
+    //		type: "column",	
+    //		name: "Oil Production (million/day)",
+    //		legendText: "Oil Production",
+    //		axisYType: "secondary",
+    //		showInLegend: true,
+    //		dataPoints:[
+    //			{ label: "Saudi", y: 10.46 },
+    //			{ label: "Venezuela", y: 2.27 },
+    //			{ label: "Iran", y: 3.99 },
+    //			{ label: "Iraq", y: 4.45 },
+    //			{ label: "Kuwait", y: 2.92 },
+    //			{ label: "UAE", y: 3.1 }
+    //		]
+    //	}]
+    //});
+    //chart.render();
+
+    //function toggleDataSeries(e) {
+    //	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+    //		e.dataSeries.visible = false;
+    //	}
+    //	else {
+    //		e.dataSeries.visible = true;
+    //	}
+    //	chart.render();
+    //}
+
+
+
+          })
+        </script>
+    }
+
+

@@ -1,0 +1,94 @@
+﻿@media(max-width: 1024px) {
+    .product-item {
+        margin-right: 9px !important;
+    }
+
+    .sH1 {
+        display: none;
+    }
+
+    .search-Head {
+        left: 164px;
+    }
+}
+@media(max-width: 900px) {
+    .titlehome i, .titlehome span {
+        display: none;
+    }
+}
+@media(max-width: 736px) {
+    nav.navbar {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    .user-head {
+        /* margin-top: 38px; */
+        position: unset;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        padding: 0px !important;
+    }
+
+    .search-Head {
+        margin: 0px;
+        height: 0px;
+        position: unset;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .sH2 {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+        .sH2 .ipt-sH {
+            width: 100%;
+        }
+
+    .product-item {
+        width: 100%;
+    }
+
+        .product-item img {
+            width: 100% !important;
+        }
+
+    .product-category .shoe-product .product-item {
+        width: 100%;
+    }
+
+    .product-category .shoe-product .info h3 {
+        height: 1.2em;
+    }
+
+    .product-detail .product-content-left img {
+        height: 300px !important;
+    }
+
+    footer .col-md-4 {
+        padding-right: 15px !important;
+        padding-left: 15px !important;
+    }
+    /*.slider{
+        height:400px;
+    }*/
+    .padmb.dichvu {
+        margin-top: 0px !important;
+    }
+
+    .padmb .title-sale p a {
+        padding: 0 0px;
+    }
+
+    .slider .items {
+        height: 300px !important;
+    }
+    .titlehome i, .titlehome span {
+        display: none !important;
+    }
+   
+}

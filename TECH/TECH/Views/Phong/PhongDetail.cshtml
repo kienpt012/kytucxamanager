@@ -1,0 +1,608 @@
+﻿@using TECH.Areas.Admin.Models
+@model PhongModelView
+@using Microsoft.AspNetCore.Http
+@using Newtonsoft.Json
+@*@{
+    var userString = Context.Session.GetString("UserInfor");
+    var user = new UserMapModelView();
+    if (userString != null)
+    {
+        user = JsonConvert.DeserializeObject<UserMapModelView>(userString);
+    }
+}*@
+@{
+    ViewData["Title"] = "ProductCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+     input.error {
+        border-color: #f00 !important;
+    }
+
+    label.error {
+        clear: both;
+        color: #f00;
+        display: block;
+        text-align: left;
+        margin: unset;
+        padding: unset;
+        font-size: 13px;
+        font-weight: unset !important;
+        background: unset;
+    }
+    .form-group[class*='has-icon-'] .form-control-icon{
+        transform: unset !important;
+        top: 10% !important;
+    }
+    * {
+        margin: 0;
+        padding: 0;
+        font-size: 14px;
+    }
+
+    h2 {
+        font-size: 14px;
+    }
+
+    .tt-prod {
+        color: #4fb100;
+        text-transform: uppercase;
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .min-wrap h2 {
+        padding: 10px 0;
+        color: #f8456a;
+        font-weight: bold;
+    }
+
+    h2.price-prod2 {
+        font-size: 16px;
+        color: #999 !important;
+        margin: 0;
+    }
+
+    .price-prod {
+        color: #f00;
+        font-size: 25px;
+        margin: 4px 0px;
+    }
+
+
+    .product-detail .tt-prod {
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .product-detail .price-prod {
+        padding: 0px 0px;
+        color: #f8456a;
+        font-weight: bold;
+    }
+
+    .product-detail .price-prod2 {
+        font-weight: bold;
+        padding-bottom: 0px;
+        padding-top: 3px;
+    }
+
+    .btn-add-cart {
+        background: #8fa815;
+        padding: 6px 0px !important;
+        color: #fff;
+    }
+
+    .nav-tabs {
+        border-bottom: 2px solid #8fa815;
+    }
+
+    .product-detail h2 {
+        padding: 10px 0;
+        color: #f8456a;
+        font-weight: bold;
+    }
+
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+        color: #fff;
+        cursor: default;
+        background-color: #8fa815;
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+        padding: 10px;
+        /* height: 40px; */
+        display: inline-block;
+    }
+
+    .nav-tabs > li {
+        margin-bottom: 0px;
+    }
+
+    .product-content {
+        border: 1px solid #ddd;
+    }
+
+    .product-content-left {
+        border-right: 1px solid #ddd;
+        padding: 20px;
+    }
+
+    .mota {
+        margin-top: 40px;
+    }
+
+    .tab-content {
+        padding: 20px;
+    }
+
+    .sub_desc {
+        margin-top: 20px;
+        background-color: #e7ffe2;
+        border: 1px solid #b1dab3;
+        padding: 10px;
+        border-radius: 5px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -o-border-radius: 5px;
+        -moz-box-shadow: inset 1px 1px 1px #fff;
+        -webkit-box-shadow: inset 1px 1px 1px #fff;
+        box-shadow: inset 1px 1px 1px #fff;
+        -o-box-shadow: inset 1px 1px 1px #fff;
+        color: #189001;
+        margin-bottom: 19px;
+    }
+
+        .sub_desc p {
+            margin: 0;
+            padding: 5px 0px;
+        }
+
+            .sub_desc p a {
+                background: #89a600;
+                padding: 2px 6px;
+                border-radius: 3px;
+                color: #fff !important;
+            }
+
+    .txt-title, .txt-title-danh-muc {
+        margin: 11px 0px;
+    }
+
+    .danh-muc-name {
+        color: #0071c5;
+        font-weight: bold;
+    }
+
+    .box-quantity {
+        margin: 5px 0px;
+        display: inline-flex;
+    }
+
+    .bg-primary {
+        background-color: #8fa815 !important;
+    }
+
+    .modal-title {
+        color: #fff !important;
+        font-size: 20px;
+    }
+
+    .choosesize {
+        background: #f4f4f4;
+        padding: 10px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+    .choosesize, ul.ulsize li {
+    border: 1px solid #dadada;
+}
+
+        .choosesize li {
+    list-style: none;
+}
+
+        .choosesize p {
+            font-weight: 400;
+            text-transform: uppercase;
+            margin: 0;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        ul.ulsize li:hover {
+            border-color: red;
+        }
+
+    ul.ulsize li {
+        float: left;
+        margin-right: 5px;
+        text-align: center;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        background: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    ul.ulsize li.tick {
+    /*background: url(images/sticked.png) right bottom no-repeat #fff;*/
+    border-color: red;
+}
+</style>
+<input type="hidden" class="product-id" value="@Model.Id" />
+<div class="product-detail custom-height">
+    <section class="ftco-section">
+        <div class="container">
+            <div class="breadcum">
+
+                <ul>
+                    <li><a title="" href="/">Trang chủ</a></li>
+                    @*  <li><a href="/hoa-giang-sinh/">Hoa giáng sinh</a></li>*@
+                </ul>
+                <div class="clear"></div>
+            </div>
+            <div class="product-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="product-content-left">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="m-i2-cpd box-uof-img">
+                                       @* <img style="width: 100%; height: 466px;" src="/product-image/@Model.ImageModelView[0].name" class=" ls-is-cached lazyloaded" />*@
+                                        @if (!string.IsNullOrEmpty(Model.HinhAnh))
+                                        {
+                                           @* <img width="234" height="234" class=" ls-is-cached lazyloaded" src="/category-image/@itemProduct.HinhAnh">*@
+
+                                            <img style="width: 100%; height: 466px;" src="/category-image/@Model.HinhAnh" class=" ls-is-cached lazyloaded" />
+                                        }
+                                       
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  @*  <input type="hidden" value="@(Model.price_sell.HasValue && Model.price_sell.Value > 0 ? Model.price_sell.Value:0)" class="product-price" />*@
+                                    <div class="b-s-1 bg-shadow">
+                                       @* <h4 class="tt-prod NoneMB">@Model.TenPhong</h4>*@
+                                        @*<h2 class="price-prod NoneMB">
+                                            @{
+                                                string priceStr = "";
+                                                string price_reducedstr = "";
+                                                if (Model.price_sell.HasValue && Model.price_sell.Value > 0)
+                                                {
+                                                    priceStr = Model.price_sell.Value.ToString("#,###");
+                                                }
+                                                if (Model.price_reduced.HasValue && Model.price_reduced.Value > 0)
+                                                {
+                                                    price_reducedstr = Model.price_reduced.Value.ToString("#,###");
+                                                }
+
+                                            }
+                                            @priceStr đ
+                                        </h2>*@
+                                        @*<h2 class="price-prod2 NoneMB"><strike>@price_reducedstr đ</strike></h2>*@
+                                        <input type="hidden" value="@Model.MaNha" id="manha" />
+                                        <input type="hidden" value="@Model.Id" id="maphong" />
+                                        @*<input type="hidden" value="@user.Id" id="makhachhang" />*@
+                                        <p class="txt-title-danh-muc">
+                                            <span class="danh-muc-lable" style="font-weight: bold;">TÊN PHÒNG  <h4 class="tt-prod NoneMB">@Model.TenPhong</h4></span>
+                                            @*<span class="danh-muc-name"> @Model.TenPhong</span>*@
+                                        </p>
+                                        <p class="txt-title-danh-muc">
+                                            <span class="danh-muc-lable">Tên Nhà: </span>
+                                            <span class="danh-muc-name"> @Model.TenNha</span>
+                                        </p>
+                                        <p class="txt-title-danh-muc">
+                                            <span class="danh-muc-lable">Chiều dài: </span>
+                                            <span class="danh-muc-name"> @Model.ChieuDai m</span>
+                                        </p>
+                                        <p class="txt-title-danh-muc">
+                                            <span class="danh-muc-lable">Chiều rộng: </span>
+                                            <span class="danh-muc-name"> @Model.ChieuRong m</span>
+                                        </p>
+                                        <p class="txt-title-danh-muc">
+                                            <span class="danh-muc-lable">Đơn giá: </span>
+                                            <span class="danh-muc-name" style="color:red"> @Model.DonGiaStr đ</span>
+                                        </p>
+                                        <p class="txt-title-danh-muc">
+                                            <span class="danh-muc-lable">Số người tối đa: </span>
+                                            <span class="danh-muc-name" style=""> @Model.SLNguoiMax</span>
+                                        </p>
+                                        @if (true)
+                                        {
+                                            <p class="txt-title-danh-muc">
+                                                <span class="danh-muc-lable">Số người đang ở: </span>
+                                                <span class="danh-muc-name" style=""> @Model.SoLuongNguoiDangO</span>
+                                            </p>
+                                        }
+                                       
+                                       @* <p class="txt-title-danh-muc">
+                                            <span class="danh-muc-lable">Tình trạng: </span>
+                                            <span class="danh-muc-name"> @Model.TinhTrangStr </span>
+                                        </p>*@
+                                       @* @if (Model.SizesModelView != null && Model.SizesModelView.Count > 0)
+                                        {
+                                            int step = 0;
+                                            <div class="choosesize ">
+                                                <p>Chọn size: </p>
+                                                <ul class="ulsize">
+                                                    @foreach (var itemSize in Model.SizesModelView)
+                                                    {
+                                                        if(step == 0){
+                                                            <li onclick="AddSize(@itemSize.id,this)" class="sizes tick" data-size="@itemSize.id">@itemSize.name</li>
+                                                        }else{
+                                                            <li onclick="AddSize(@itemSize.id,this)" class="sizes" data-size="@itemSize.id">@itemSize.name</li>
+                                                        }
+                                                        step++;
+                                                    }
+                                                </ul>
+                                            </div>
+                                        }*@
+                                        
+
+                                        @*<div class="input-group box-quantity">
+                                            <span class="input-group-btn mr-2" style="margin: 0px !important;">
+                                                <button type="button" data-type="minus" data-field="" class="quantity-left-minus minus btn">
+                                                    <i class="ion-ios-remove">-</i>
+                                                </button>
+                                            </span>
+                                            <input type="number" min="1" value="1" id="quantity" class="form-control input-number" oninput="this.value = !!this.value && Math.abs(this.value) >= 1 ? Math.abs(this.value) : 1" style="padding: 0px 10px; flex: unset;min-width: 100px;">
+                                            <span class="input-group-btn ml-2" style="margin: 0px !important;">
+                                                <button type="button" data-type="plus" class="quantity-right-plus btn plus">
+                                                    <i class="ion-ios-add">+</i>
+                                                </button>
+                                            </span>
+                                        </div>*@
+
+                                        @*<div class="sub_desc">
+                                            <p>
+                                                <a>1.</a>&nbsp;Tặng miễn phí banner, thiệp (trị giá 20.000đ)
+                                            </p>
+                                            <p>
+                                                <a>2.</a><span>&nbsp;Giao hàng trên toàn quốc</span>
+                                            </p>
+                                            <p>
+                                                <a>3.</a>&nbsp;Giao gấp trong 2h
+                                            </p>
+                                            <p>
+                                                <a>4.</a>&nbsp;Cam kết hàng chất lượng
+                                            </p>
+
+                                        </div>*@
+                                        @if (Model.SLNguoiMax != Model.SoLuongNguoiDangO)
+                                        {
+                                            <a href="javascript:void(0)" class="btn btn-black py-3 px-5 btn-block btn-add-cart" style="color: #fff;font-weight: bold;    margin-top: 50px;">
+                                            ĐẶT PHÒNG <i class="ion-ios-add ml-1"></i>
+                                        </a>
+                                        }
+                                        @*<h4 class="gt-tt">Gọi điện thoại đặt mua: <span>0936 65 27 27 - 0977 301 303</span></h4>
+                                        <div class="tt-2prod">
+                                        <ul>
+                                        <li>Giao hàng trên toàn quốc</li>
+                                        <li>Giao nhanh <strong>sau 2h đặt hàng</strong></li>
+                                        </ul>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="mota">
+                                    <div class="nav-tabs-custom">
+                                        <ul class="nav nav-tabs">
+                                            <li class="active">
+                                                <a href="#activity" data-toggle="tab">THÔNG TIN THÊM</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="active tab-pane" id="activity">
+                                                @Html.Raw(Model.MoTa)     
+                                             @*  <textarea rows="50" cols="50" style="overflow:auto;resize:none; width:100%">@Model.MoTa</textarea>*@
+                                              
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+
+</div>
+<div id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalTitle" class="modal fade" aria-modal="true">
+    <div role="document" class="modal-dialog modal-dialog-centered">
+        <form id="form-submit" action="#" style="width: 100%;">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white ">Vui lòng đăng nhập</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <a href="/dang-nhap" class="btn btn-primary me-1 mb-1 btn-submit-format btn-success" style="border: none;color: #fff;">Đăng nhập</a>
+                    <a href="#" class="btn btn-primary me-1 mb-1 btn-submit-format" data-dismiss="modal" style="background: #ddd; border: none;color: black;">Hủy</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="categoryModalOverStock" tabindex="-1" role="dialog" aria-labelledby="categoryModalTitle" class="modal fade" aria-modal="true">
+    <div role="document" class="modal-dialog modal-dialog-centered">
+        <form id="form-submit" action="#" style="width: 100%;">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white ">Số lượng mua vượt quá số lượng trong kho </h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tổng số lượng còn lại trong kho là: <span class="soluongcong"></span></p>
+                </div>
+                <div class="modal-footer">                  
+                    <a href="#" class="btn btn-primary me-1 mb-1 btn-submit-format" data-dismiss="modal" style="background: #ddd; border: none;color: black;">OK</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="CartsModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalTitle" class="modal fade" aria-modal="true">
+    <div role="document" class="modal-dialog modal-dialog-centered">
+        <form id="form-submit" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white ">Bạn đã thêm vào giỏ hàng thành công</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                @*  <div class="modal-body">
+                </div>*@
+                <div class="modal-footer">
+
+                    <a href="#" class="btn btn-primary me-1 mb-1 btn-submit-format" data-dismiss="modal" style="background: green;color: #fff;">OK</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<partial name="AddUserPhong" />
+
+@section Scripts{
+    <script type="text/javascript">
+            var self = this;
+            self.HopDong = {
+                Id:0,
+                MaPhong:0,
+                MaNha:0,
+                MaNV:null,
+                MaKH:0,
+                NgayBatDau:"",
+                NgayKetThuc:"",
+                TienCoc:0,
+                TrangThai:"",
+                GhiChu:""
+            }
+        self.payment = 0;
+        $(document).ready(function () {     
+            
+            self.ValidateUser();
+            $(".delivery").change(function () {
+                self.payment = parseInt($(this).val());
+            });
+
+            $(".formatdate").datepicker({
+                dateFormat: 'dd/mm/yy'
+            });
+
+            $(".btn-add-cart").click(function () {
+                $.ajax({
+                    url: '/Phong/AddView',
+                    type: 'Get',
+                    dataType: 'json',                   
+                    beforeSend: function () {
+                         Loading('show');
+                    },
+                    complete: function () {
+                          Loading('hiden');
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            //$("#CartsModal").modal("show");
+                            $('#userModal').modal('show');
+                            //$("# $('#userModal').modal('show');")
+                            if(response.data != null){
+                                $("#TenKhachHang").val(response.data.Ten);
+                                    self.HopDong.MaKH = response.data.Id;
+                            }
+                        }
+                        else {
+                            $("#categoryModal").modal("show");
+                        }
+                    }
+                })
+
+            })
+
+        })
+        function AddSize(id,tag){
+            $(".sizes").removeClass("tick");
+            $(tag).addClass("tick");
+        }
+         self.ValidateUser = function () {        
+
+                $("#form-submit-hop-dong").validate({
+                rules:
+                {
+                    NgayBatDau: {
+                        required: true
+                    },
+                    TienCoc: {
+                        required: true
+                    }
+                },
+                messages:
+                {
+                    NgayBatDau: {
+                        required: "Vui lòng ngày bắt đầu"
+                    },
+                    TienCoc: {
+                        required: "Vui lòng nhập tiền đặt cọc"
+                    }
+                },
+                submitHandler: function (form) {               
+                    self.GetValue();
+                         self.AddUser(self.HopDong);
+                }
+            });
+        }
+            self.AddUser = function (userView) {
+                $.ajax({
+                    url: '/Admin/HopDong/Add',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {
+                        HopDongModelView: userView
+                    },
+                    beforeSend: function () {
+                        Loading('show');
+                    },
+                    complete: function () {
+                        Loading('hiden');
+                    },
+                    success: function (response) {
+                        debugger
+                    if (response.vnpay != "" && self.payment == 1) {
+                        window.location.href = response.vnpay;
+                    } else if (response.success) {
+                            //tedu.notify('Thêm mới dữ liệu thành công', 'success');
+                            /*self.GetDataPaging(true);*/
+                            $('#userModal').modal('hide');
+                            window.location.reload();
+                        }
+                        else {
+                            if (response.isPhoneExist) {
+                                $(".phone_number-exist").show().text("Phone đã tồn tại");
+                            }
+                            if (response.isMailExist) {
+                                $(".email-exist").show().text("Email đã tồn tại");
+                            }
+                        }
+                    }
+                })
+            }
+        self.GetValue = function () {
+            self.HopDong.MaPhong = $("#maphong").val();
+            self.HopDong.MaNha = $("#manha").val();
+            self.HopDong.TrangThaiPayment = self.payment;
+            /*self.HopDong.NgayBatDau = $("#NgayBatDau").val();   */
+            self.HopDong.NgayBatDau = $.datepicker.formatDate("yy-mm-dd", $("#NgayBatDau").datepicker("getDate")); 
+            self.HopDong.TienCoc = $("#TienCoc").val(); 
+            self.HopDong.TrangThai = 1; 
+        }
+
+
+    </script>
+}

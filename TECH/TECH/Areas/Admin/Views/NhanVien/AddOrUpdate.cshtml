@@ -1,0 +1,138 @@
+﻿@{
+    Layout = null;
+}
+<div id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalTitle" class="modal fade bd-example-modal-lg" aria-modal="true">
+    <div role="document" class="modal-dialog modal-lg">
+        <form id="form-submit" action="#">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 id="titleModal" class="modal-title white">Thêm mới tài khoản</h5>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="first-name-icon"> Họ và tên </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="Nhập họ và tên" id="TenNV" name="TenNV" class="form-control custom-format">
+                                    <div class="form-control-icon"><i class="bi bi-person"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="email-id-icon">Email</label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="abc@email.com" id="Email" name="Email" class="form-control custom-format">
+                                    <label id="email-error " class="error email-exist" style="display: none;" for="email">Email đã tồn tại</label>
+                                    <div class="form-control-icon"><i class="bi bi-envelope"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Ngày sinh </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="12/02/1997" id="NgaySinh" name="NgaySinh" class="form-control custom-format">
+                                    <div class="form-control-icon"><i class="fa-solid fa-calendar-days"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Giới tính</label>
+                                <div class="position-relative">
+                                    <select id="GioiTinh" name="GioiTinh" class="form-select select">
+                                        <option value="">Chọn giới tính</option>
+                                        <option value="nam">Nam</option>
+                                        <option value="nu">Nữ</option>
+                                    </select>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> Số điện thoại </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="0345801986" id="SoDienThoai" name="SoDienThoai" class="form-control custom-format">
+                                    <label id="phone_number-error" class="error phone_number-exist" for="phone_number" style="display: none;color:red">Số điện thoại đã tồn tại</label>
+                                    <div class="form-control-icon"><i class="bi bi-phone"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="mobile-id-icon"> CMND </label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="0123456789" id="CMND" name="CMND" class="form-control custom-format">
+                                    <div class="form-control-icon"><i class="bi bi-phone"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Loại tài khoản</label>
+                                <div class="position-relative">
+                                    <select id="Role" name="Role" class="form-select select">
+                                        <option value="">Chọn loại tài khoản</option>
+                                        <option value="0">Quản trị viên</option>
+                                        <option value="1">Nhân viên</option>
+                                    </select>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Tên đăng nhập</label>
+                                <div class="position-relative">
+                                    <input type="text" placeholder="tên đăng nhập" id="TenDangNhap" name="TenDangNhap" class="form-control">
+                                    <div class="form-control-icon"><i class="bi bi-lock"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Mật khẩu</label>
+                                <div class="position-relative">
+                                    <input type="password" placeholder="*******" id="MatKhau" name="MatKhau" class="form-control">
+                                    <div class="form-control-icon"><i class="bi bi-lock"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Nhập lại mật khẩu</label>
+                                <div class="position-relative">
+                                    <input type="password" placeholder="*******" id="confirm_password" name="confirm_password" class="form-control">
+                                    <div class="form-control-icon"><i class="bi bi-lock"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group has-icon-left">
+                                <label for="password-id-icon">Địa chỉ</label>
+                                <div class="position-relative">
+                                    <textarea name="DiaChi" id="DiaChi" rows="3" placeholder="..." class="form-control"></textarea>
+                                    <div class="form-control-icon"><i class="bi bi-geo-alt"></i></div>
+                                </div>
+                                <!---->
+                            </div>
+                        </div>                        
+                    </div>
+                    <div class="modal-footer"><button type="submit" class="btn btn-primary me-1 mb-1 btn-submit-format">Thêm mới</button></div>
+                </div>
+        </form>
+    </div>
+</div>
